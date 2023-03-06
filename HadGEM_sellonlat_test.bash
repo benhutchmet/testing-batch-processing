@@ -20,7 +20,8 @@ mkdir -p $OUTPUT_DIR
 
 # set the files to be processed
 # specifies the files to be processed as all of the years and all of the ensemble runs (10) from 1960-2018
-files = /badc/cmip6/data/CMIP6/DCPP/MOHC/HadGEM3-GC31-MM/dcppA-hindcast/s*-r*i1p1f2/Amon/psl/gn/files/d20200417/*.nc
+# this is where it went wrong lol
+files=/badc/cmip6/data/CMIP6/DCPP/MOHC/HadGEM3-GC31-MM/dcppA-hindcast/s*-r*i1p1f2/Amon/psl/gn/files/d20200417/*.nc
 
 # activate the environment containing CDO
 module load jaspy
