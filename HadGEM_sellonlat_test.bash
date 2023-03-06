@@ -2,9 +2,9 @@
 
 # HadGEM_sellonlat_test.bash
 #
-# Usage:    HadGEM_sellonlat_test.bash <YYYY> <Run> <lon1> <lon2> <lat1> <lat2> <location>
+# Usage:    HadGEM_sellonlat_test.bash <finish year> <Run> <lon1> <lon2> <lat1> <lat2> <location>
 
-# get the year and run from the command line
+# get the start and finish years from the command line
 year=$1
 run=$2
 
@@ -16,7 +16,6 @@ lat2=$6
 
 # get the location from the command line
 location=$7
-
 
 # set the output directory
 OUTPUT_DIR=/home/users/benhutch/batch-testing/$location/outputs

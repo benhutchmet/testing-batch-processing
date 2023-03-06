@@ -19,9 +19,12 @@ mkdir -p $OUTPUTS_DIR
 # set the partition arguments
 sbatch_part_cmds="--partition=short-serial"
 
-# set the run and year
-year=1960
-run=1
+# set the start and finish years
+start_year=1960
+finish_year=2018
+
+# set the run
+run=10 # we want all ensemble members
 
 # set the lon/lat values for the azores
 lon1=-28
@@ -32,11 +35,21 @@ lat2=40
 # set the location
 location=azores
 
-# loop through the files and process them
-# echo the location and the lon/lat values
-echo "[INFO] Subsetting: $location"
-echo "[INFO] Subsetting: $lon1, $lon2, $lat1, $lat2"
+# create an outer loop to loop through the years
+for year in $(seq $start_year $finish_year); do
 
-# submit the job to LOTUS
-sbatch $sbatch_part_cmds -t 5 -o $OUTPUTS_DIR/${location}.%j.out \
-       -e $OUTPUTS_DIR/${location}.%j.err $EXTRACTOR $year $run $lon1 $lon2 $lat1 $lat2 $location
+    # set up the inner loop to loop through the ensemble members
+    for run in $(seq 1 $run); do
+
+        # set the date
+        year=$(printf "%d" $year)
+        run=$(printf "%d" $run)
+        echo "[INFO] Submitting job to LOTUS for year: $year and run: $run"
+        # Submit the job to LOTUS
+        sbatch $sbatch_part_cmds -t 5 -o $OUTPUTS_DIR/${year}-${run}.%j.out \
+               -e $OUTPUTS_DIR/${year}-${run}.%j.err $EXTRACTOR $year $run $lon1 $lon2 $lat1 $lat2 $location
+
+    done
+
+done
+
