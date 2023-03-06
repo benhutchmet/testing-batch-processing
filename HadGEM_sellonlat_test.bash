@@ -2,16 +2,21 @@
 
 # HadGEM_sellonlat_test.bash
 #
-# Usage:    HadGEM_sellonlat_test.bash <lon1> <lon2> <lat1> <lat2> <location>
+# Usage:    HadGEM_sellonlat_test.bash <YYYY> <Run> <lon1> <lon2> <lat1> <lat2> <location>
+
+# get the year and run from the command line
+year=$1
+run=$2
 
 # get the lon/lat values from the command line
-lon1=$1
-lon2=$2
-lat1=$3
-lat2=$4
+lon1=$3
+lon2=$4
+lat1=$5
+lat2=$6
 
 # get the location from the command line
-location=$5
+location=$7
+
 
 # set the output directory
 OUTPUT_DIR=/home/users/benhutch/batch-testing/$location/outputs
@@ -21,7 +26,7 @@ mkdir -p $OUTPUT_DIR
 # set the files to be processed
 # specifies the files to be processed as all of the years and all of the ensemble runs (10) from 1960-2018
 # this is where it went wrong lol
-files=/badc/cmip6/data/CMIP6/DCPP/MOHC/HadGEM3-GC31-MM/dcppA-hindcast/s*-r*i1p1f2/Amon/psl/gn/files/d20200417/*.nc
+files=/badc/cmip6/data/CMIP6/DCPP/MOHC/HadGEM3-GC31-MM/dcppA-hindcast/s${year}-r${run}i1p1f2/Amon/psl/gn/files/d20200417/*.nc
 
 # activate the environment containing CDO
 module load jaspy

@@ -19,6 +19,10 @@ mkdir -p $OUTPUTS_DIR
 # set the partition arguments
 sbatch_part_cmds="--partition=short-serial"
 
+# set the run and year
+year=1960
+run=1
+
 # set the lon/lat values for the azores
 lon1=-28
 lon2=-20
@@ -35,4 +39,4 @@ echo "[INFO] Subsetting: $lon1, $lon2, $lat1, $lat2"
 
 # submit the job to LOTUS
 sbatch $sbatch_part_cmds -t 5 -o $OUTPUTS_DIR/${location}.%j.out \
-       -e $OUTPUTS_DIR/${location}.%j.err $EXTRACTOR $lon1 $lon2 $lat1 $lat2 $location
+       -e $OUTPUTS_DIR/${location}.%j.err $EXTRACTOR $year $run $lon1 $lon2 $lat1 $lat2 $location
