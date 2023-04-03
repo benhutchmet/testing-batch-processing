@@ -29,4 +29,4 @@ for INPUT_FILE in $files; do
     cdo selname,$VAR_ID $INPUT_FILE $OUTPUT_FILE
 
 done
-
+ 
