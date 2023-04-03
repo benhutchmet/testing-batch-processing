@@ -21,7 +21,7 @@ mkdir -p $OUTPUT_DIR
 
 # set the files to be processed
 # and extract the start year
-files=/home/users/benhutch/BCC-CSM2-MR/$location/outputs/${location}-psl_Amon_BCC-CSM2-MR_dcppA-hindcast_s${iyear}*.nc
+files=/home/users/benhutch/BCC-CSM2-MR/$location/outputs/*.nc
 
 # activate the environment containing CDO
 module load jaspy
