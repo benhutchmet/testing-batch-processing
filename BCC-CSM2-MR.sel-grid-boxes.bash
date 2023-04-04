@@ -23,7 +23,9 @@ OUTPUT_DIR=/home/users/benhutch/BCC-CSM2-MR/$location/outputs
 mkdir -p $OUTPUT_DIR
 
 # set the files to be processed
-files = /badc/cmip6/data/CMIP6/DCPP/BCC/BCC-CSM2-MR/dcppA-hindcast/s${year}-r${run}i1p1f1/Amon/psl/gn/files/d20191126/*.nc
+files=/badc/cmip6/data/CMIP6/DCPP/BCC/BCC-CSM2-MR/dcppA-hindcast/s${year}-r${run}i1p1f1/Amon/psl/gn/files/d????????/*.nc
+
+# /badc/cmip6/data/CMIP6/DCPP/BCC/BCC-CSM2-MR/dcppA-hindcast/s1964-r3i1p1f1/Amon/psl/gn/files/d20191213
 
 # activate the environment containing CDO
 module load jaspy

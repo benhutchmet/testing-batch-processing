@@ -4,8 +4,7 @@
 
 # submit-all-BCC-CSM2-MR.bash
 #
-# Usage:    submit-all-BCC-CSM2-MR.bash <location> <start year> <finish year> <lon1> <lon2> <lat1> <lat2>
-#
+# Usage:    submit-all-BCC-CSM2-MR.bash <location> <start_year> <finish_year> <lon1> <lon2> <lat1> <lat2>
 
 # set the partition/account arguments for LOTUS based on usage context
 # SBATCH --partition=short-serial
@@ -24,9 +23,9 @@ start_year=$2
 finish_year=$3
 
 # set the number of ensemble members to extract
-run=10 # we want all ensemble members
+run=8 # we want all ensemble members
 
-# extract the lon/lat values for the location
+# extract the lon/lat values for the azores
 lon1=$4
 lon2=$5
 lat1=$6
