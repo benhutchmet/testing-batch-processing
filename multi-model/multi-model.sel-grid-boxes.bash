@@ -33,13 +33,13 @@ fi
 model=$4
 
 # set up an if loop for the model name
-if [model == "BCC-CSM2-MR"]; then
+if [ $model == "BCC-CSM2-MR" ]; then
     model_group="BCC"
-elif [model == "MPI-ESM1-2-HR"]
+elif [ $model == "MPI-ESM1-2-HR" ]; then
     model_group="MPI-M"
-elif [model == "CanESM5"]
+elif [ $model == "CanESM5" ]; then
     model_group="CCCma"
-elif [model == "CMCC-CM2-SR5"]
+elif [ $model == "CMCC-CM2-SR5" ]; then
     model_group="CMCC"
 else
     echo "[ERROR] Model not recognised"

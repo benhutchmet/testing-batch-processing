@@ -2,7 +2,7 @@
 
 # submit-all-multi-model.bash
 #
-# Usage: submit-all-multi-model.bash <location> <start_year> <finish_year> <model> <ensemble_members>
+# Usage: submit-all-multi-model.bash <location> <start_year> <finish_year> <model>
 #
 # For example: submit-all-multi-model.bash azores 1960 1969 BCC-CSM2-MR
 
@@ -22,9 +22,6 @@ finish_year=$3
 # extract the model name
 model=$4
 
-# set the number of ensemble members to extract
-run=$5
-
 # if model=all, then run a for loop over all the models
 if [ $model == "all" ]; then
 
@@ -36,6 +33,21 @@ if [ $model == "all" ]; then
 
         # echo the model name
         echo "[INFO] Extracting data for model: $model"
+
+        # set up the number of ensemble members to extract
+        if [ $model == "BCC-CSM2-MR" ]; then
+            run=8
+        elif [ $model == "MPI-ESM1-2-HR" ]; then
+            run=10
+        elif [ $model == "CanESM5" ]; then
+            run=20
+        elif [ $model == "CMCC-CM2-SR5" ]; then
+            run=10
+        fi
+
+        # echo the number of ensemble members
+        echo "[INFO] Number of ensemble members: $run"
+
 
         # set the output directory
         OUTPUTS_DIR=/work/scratch-nopw/benhutch/$model/$location/lotus-outputs
@@ -70,6 +82,20 @@ else
 
         # set up the output directory
         OUTPUTS_DIR=/work/scratch-nopw/benhutch/$model/$location/lotus-outputs
+
+        # set up the number of ensemble members to extract
+        if [ $model == "BCC-CSM2-MR" ]; then
+            run=8
+        elif [ $model == "MPI-ESM1-2-HR" ]; then
+            run=10
+        elif [ $model == "CanESM5" ]; then
+            run=20
+        elif [ $model == "CMCC-CM2-SR5" ]; then
+            run=10
+        fi
+
+        # echo the number of ensemble members
+        echo "[INFO] Number of ensemble members: $run"
 
         # make the output directory if it doesn't exist
         mkdir -p $OUTPUTS_DIR
