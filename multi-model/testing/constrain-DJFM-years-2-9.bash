@@ -4,7 +4,7 @@
 #
 # Usage:    constrain-DJFM-years-2-9.bash <location> <model>
 #
-# for example: constrain-DJFM-years-2-9.bash azores
+# for example: constrain-DJFM-years-2-9.bash azores BCC-CSM2-MR
 
 # extract the location
 location=$1
