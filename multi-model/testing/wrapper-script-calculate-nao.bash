@@ -48,35 +48,35 @@ submit-calc-nao=${scripts-directory}/submit-all-multi-model.NAO-anom.bash
 
 # call the scripts for both iceland and azores
 # select the gridboxes
-${submit-select-gridbox azores} $start_year $finish_year $model
-${submit-select-gridbox iceland} $start_year $finish_year $model
+bash ${submit-select-gridbox azores} $start_year $finish_year $model
+bash ${submit-select-gridbox iceland} $start_year $finish_year $model
 
 # select the years 2-9 and DJFM
-${submit-select-2-9-DJFM} azores $model
-${submit-select-2-9-DJFM} iceland $model
+bash ${submit-select-2-9-DJFM} azores $model
+bash ${submit-select-2-9-DJFM} iceland $model
 
 # calculate the multi-model state
-${submit-calc-MM-state} azores $model
-${submit-calc-MM-state} iceland $model
+bash ${submit-calc-MM-state} azores $model
+bash ${submit-calc-MM-state} iceland $model
 
 # calculate the anomalies
-${submit-calc-anomalies} azores $model $start_year $finish_year
-${submit-calc-anomalies} iceland $model $start_year $finish_year
+bash ${submit-calc-anomalies} azores $model $start_year $finish_year
+bash ${submit-calc-anomalies} iceland $model $start_year $finish_year
 
 # combine the anomalies
-${submit-combine-anomalies} azores $model $start_year $finish_year
-${submit-combine-anomalies} iceland $model $start_year $finish_year
+bash ${submit-combine-anomalies} azores $model $start_year $finish_year
+bash ${submit-combine-anomalies} iceland $model $start_year $finish_year
 
 # time mean the anomalies
-${submit-time-mean} azores $model $start_year $finish_year
-${submit-time-mean} iceland $model $start_year $finish_year
+bash ${submit-time-mean} azores $model $start_year $finish_year
+bash ${submit-time-mean} iceland $model $start_year $finish_year
 
 # merge the time
-${submit-mergetime} azores $model
-${submit-mergetime} iceland $model
+bash ${submit-mergetime} azores $model
+bash ${submit-mergetime} iceland $model
 
 # calculate the NAO anomaly
-${submit-calc-nao} $model
+bash ${submit-calc-nao} $model
 
 
 

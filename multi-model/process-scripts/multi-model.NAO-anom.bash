@@ -1,22 +1,37 @@
 #!/bin/bash
 
-# BCC-CSM2-MR.NAO-anom.bash
+# multi-model.NAO-anom.bash
 #
-# Usage: BCC-CSM2-MR.NAO-anom.bash
+# Usage: multi-model.NAO-anom.bash <model>
 #
+# For example: multi-model.NAO-anom.bash BCC-CSM2-MR
+
+USAGE_MESSAGE="Usage: multi-model.NAO-anom.bash <model>"
+
+# check that the correct number of arguments have been passed
+if [ $# -ne 1 ]; then
+    echo "$USAGE_MESSAGE"
+    exit 1
+fi
+
+# set the model
+model=$1
 
 # set the output directory
-OUTPUT_DIR=/home/users/benhutch/BCC-CSM2-MR/NAO_anomaly
+OUTPUT_DIR=/work/scratch-nopw/benhutch/$model/nao-anomaly
 # make the output directory if it doesn't exist
 mkdir -p $OUTPUT_DIR
 
 # set the files to be processed
-azores=/home/users/benhutch/BCC-CSM2-MR/azores/mergetime/merged_dataset_BCC-CSM2-MR_1961-2014-azores.nc
+azores=/work/scratch-nopw/benhutch/$model/azores/outputs/mergetime/*.nc
+iceland=/work/scratch-nopw/benhutch/$model/iceland/outputs/mergetime/*.nc
 
-iceland=/home/users/benhutch/BCC-CSM2-MR/iceland/mergetime/merged_dataset_BCC-CSM2-MR_1961-2014-iceland.nc
+# echo the files being processed
+echo "azores file: $azores"
+echo "iceland file: $iceland"
 
-# ensure that the cdo environment is loaded
+# activate the environment containing CDO
 module load jaspy
 
 # calculate the NAO anomaly
-cdo sub -fldmean $azores -fldmean $iceland $OUTPUT_DIR/NAO_anomaly.nc
+cdo sub -fldmean $azores -fldmean $iceland $OUTPUT_DIR/nao-anomaly-${model}.nc
