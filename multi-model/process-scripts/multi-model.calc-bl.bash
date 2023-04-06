@@ -18,7 +18,7 @@ location=$1
 model=$2
 
 # set the output directory
-OUTPUT_DIR=/home/users/benhutch/$model/$location/outputs/model-mean-state
+OUTPUT_DIR=/work/scratch-nopw/benhutch/$model/$location/outputs/model-mean-state
 # make the output directory if it doesn't exist
 mkdir -p $OUTPUT_DIR
 

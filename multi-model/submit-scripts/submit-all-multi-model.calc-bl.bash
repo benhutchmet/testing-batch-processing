@@ -22,9 +22,6 @@ model=$2
 # set the extractor script
 EXTRACTOR=$PWD/multi-model.calc-bl.bash
 
-# set the extractor script and the output directory
-EXTRACTOR=$PWD/BCC-CSM2-MR.calc-bl.bash
-
 # set up the model list
 models="BCC-CSM2-MR MPI-ESM1-2-HR CanESM5 CMCC-CM2-SR5"
 
