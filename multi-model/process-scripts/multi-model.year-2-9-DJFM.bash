@@ -28,6 +28,16 @@ module load jaspy
 # Loop through the input files
 for INPUT_FILE in $files; do
 
+    # construct if statement to check if the file has been processed already
+    # if it has, skip it
+    # if it hasn't, process it
+    # if the filename contains "years-2-9-DJFM" then skip it
+    if [[ $(basename "$INPUT_FILE") == *"years-2-9-DJFM"* ]]; then
+        echo "[INFO] Skipping file: $INPUT_FILE"
+        continue
+    fi
+
+    
     # Print a message
     echo "[INFO] Creating years 2-9 DJFM files: $INPUT_FILE"
 

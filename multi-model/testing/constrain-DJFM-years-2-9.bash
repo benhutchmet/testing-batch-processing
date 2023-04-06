@@ -26,6 +26,12 @@ module load jaspy
 # loop through the files and process them
 for INPUT_FILE in $files; do
 
+    # if file contains years-2-9-DJFM then skip
+    if [[ $(basename $INPUT_FILE) == *"years-2-9-DJFM"* ]]; then
+        echo "[INFO] Skipping file: $INPUT_FILE"
+        continue
+    fi
+
     echo "[INFO] Creating years 2-9 DJFM files: $INPUT_FILE"
     fname=years-2-9-DJFM-$(basename $INPUT_FILE)
     temp_fname=temp-$(basename $INPUT_FILE)

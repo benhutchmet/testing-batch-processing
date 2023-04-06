@@ -1,14 +1,15 @@
+
 #!/bin/bash
 
-# submit-all-multi-model.year-2-9.bash
+# submit-all-multi-model.year-2-9-DJFM.bash
 #
-# Usage: submit-all-multi-model.year-2-9.bash <location> <model>
+# Usage: submit-all-multi-model.year-2-9-DJFM.bash <location> <model>
 
 # set the partition/account arguments for LOTUS based on usage context
 # SBATCH --partition=short-serial
 
 # define the usage message
-USAGE_MESSAGE="Usage: submit-all-multi-model.year-2-9.bash <location> <model>"
+USAGE_MESSAGE="Usage: submit-all-multi-model.year-2-9-DJFM.bash <location> <model>"
 
 # check the number of command-line arguments
 if [ $# -ne 2 ]; then
@@ -21,10 +22,7 @@ location=$1
 model=$2
 
 # set the extractor script and the output directory
-EXTRACTOR=$PWD/multi-model.year2-9-DJFM.bash
-
-# make the output directory if it doesn't exist
-mkdir -p $OUTPUTS_DIR
+EXTRACTOR=$PWD/multi-model.year-2-9-DJFM.bash
 
 # set up the model list
 models="BCC-CSM2-MR MPI-ESM1-2-HR CanESM5 CMCC-CM2-SR5"
@@ -48,7 +46,7 @@ if [ $model == "all" ]; then
 
         # Submit the job to LOTUS
         sbatch --partition=short-serial -t 5 -o $OUTPUTS_DIR/year-2-9.%j.out \
-               -e $OUTPUTS_DIR/year-2-9.%j.err $EXTRACTOR $location
+               -e $OUTPUTS_DIR/year-2-9.%j.err $EXTRACTOR $location $model
 
     done
 
@@ -67,7 +65,7 @@ else
        
        # Submit the job to LOTUS
        sbatch --partition=short-serial -t 5 -o $OUTPUTS_DIR/year-2-9.%j.out \
-       -e $OUTPUTS_DIR/year-2-9.%j.err $EXTRACTOR $location
+       -e $OUTPUTS_DIR/year-2-9.%j.err $EXTRACTOR $location $model
 
 fi
 
