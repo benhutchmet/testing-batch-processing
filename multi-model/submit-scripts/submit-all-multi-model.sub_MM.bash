@@ -7,6 +7,14 @@
 # set the partition/account arguments for LOTUS based on usage context
 # SBATCH --partition=short-serial
 
+USAGE_MESSAGE="Usage: submit-all-multi-model.sub_MM.bash <location> <model> <start_year> <finish_year>"
+
+# check that the correct number of arguments have been passed
+if [ $# -ne 4 ]; then
+    echo "$USAGE_MESSAGE"
+    exit 1
+fi
+
 # extract the location and model
 location=$1
 model=$2
