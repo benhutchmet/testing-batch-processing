@@ -37,7 +37,6 @@ for INPUT_FILE in $files; do
         continue
     fi
 
-    
     # Print a message
     echo "[INFO] Creating years 2-9 DJFM files: $INPUT_FILE"
 

@@ -5,6 +5,10 @@
 # For example: submit-all-multi-model.time-mean.bash azores BCC-CSM2-MR 1961 1969
 #
 
+# import the models list
+source $PWD/models.bash
+echo "[INFO] Models list: $models"
+
 USAGE_MESSAGE="Usage: submit-all-multi-model.time-mean.bash <location> <model> <start_year> <end_year>"
 
 # check that the correct number of arguments have been passed
@@ -22,11 +26,11 @@ end_year=$4
 # set the extractor script
 EXTRACTOR=$PWD/multi-model.time-mean.bash
 
-# set up the models list
-models="BCC-CSM2-MR MPI-ESM1-2-HR CanESM5 CMCC-CM2-SR5"
-
 # loop through the models
 if [ $model == "all" ]; then
+
+    # set up the model list
+    echo "[INFO] Calculating time means for all models: $models"
 
     for model in $models; do
 

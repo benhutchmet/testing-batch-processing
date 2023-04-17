@@ -9,6 +9,20 @@
 # set the partition/account arguments for LOTUS based on usage context
 # SBATCH --partition=short-serial
 
+# import the models list
+source $PWD/models.bash
+# echo the models list
+echo "[INFO] Models list: $models"
+
+# set the usage message
+USAGE_MESSAGE="Usage: submit-all-multi-model.bash <location> <start_year> <finish_year> <model>"
+
+# check that the correct number of arguments have been passed
+if [ $# -ne 4 ]; then
+    echo "$USAGE_MESSAGE"
+    exit 1
+fi
+
 # extract the location
 location=$1
 
@@ -26,7 +40,7 @@ model=$4
 if [ $model == "all" ]; then
 
     # set up the model list
-    models="BCC-CSM2-MR MPI-ESM1-2-HR CanESM5 CMCC-CM2-SR5 HadGEM3-GC31-MM EC-Earth3"
+    echo "[INFO] Extracting data for all models: $models"
 
     # loop through the models
     for model in $models; do

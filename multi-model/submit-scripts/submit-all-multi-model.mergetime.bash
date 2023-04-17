@@ -5,6 +5,11 @@
 # Usage: submit-all-multi-model.mergetime.bash <location> <model>
 #
 
+# import the models list
+source $PWD/models.bash
+# echo the models list
+echo "[INFO] Models list: $models"
+
 USAGE_MESSAGE="Usage: submit-all-multi-model.mergetime.bash <location> <model>"
 
 # check that the correct number of arguments have been passed
@@ -23,11 +28,11 @@ EXTRACTOR=$PWD/multi-model.mergetime.bash
 # make sure that cdo is loaded
 module load jaspy
 
-# set up the model list
-models="BCC-CSM2-MR MPI-ESM1-2-HR CanESM5 CMCC-CM2-SR5"
-
 # loop through the models
 if [ $model == "all" ]; then
+
+    # set up the model list
+    echo "[INFO] Merging the time dimension for model: $model"
 
     for model in $models; do
 

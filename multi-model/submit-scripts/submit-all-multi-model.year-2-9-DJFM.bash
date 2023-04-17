@@ -4,9 +4,14 @@
 # submit-all-multi-model.year-2-9-DJFM.bash
 #
 # Usage: submit-all-multi-model.year-2-9-DJFM.bash <location> <model>
-
+#
 # set the partition/account arguments for LOTUS based on usage context
 # SBATCH --partition=short-serial
+
+# import the models list
+source $PWD/models.bash
+# echo the models list
+echo "[INFO] Models list: $models"
 
 # define the usage message
 USAGE_MESSAGE="Usage: submit-all-multi-model.year-2-9-DJFM.bash <location> <model>"
@@ -24,11 +29,11 @@ model=$2
 # set the extractor script and the output directory
 EXTRACTOR=$PWD/multi-model.year-2-9-DJFM.bash
 
-# set up the model list
-models="BCC-CSM2-MR MPI-ESM1-2-HR CanESM5 CMCC-CM2-SR5"
-
 # loop through the models
 if [ $model == "all" ]; then
+
+    # set up the model list
+    echo "[INFO] Extracting data for all models: $models"
 
     for model in $models; do
 

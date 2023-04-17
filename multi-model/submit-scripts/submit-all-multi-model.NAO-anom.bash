@@ -6,6 +6,11 @@
 #
 # For example: submit-all-multi-model.NAO-anom.bash BCC-CSM2-MR
 
+# import the models list
+source $PWD/models.bash
+# echo the models list
+echo "[INFO] Models list: $models"
+
 USAGE_MESSAGE="Usage: submit-all-multi-model.NAO-anom.bash <model>"
 
 # check that the correct number of arguments have been passed
@@ -20,11 +25,11 @@ model=$1
 # set the extractor
 EXTRACTOR=$PWD/multi-model.NAO-anom.bash
 
-# set up the model list
-models="BCC-CSM2-MR MPI-ESM1-2-HR CanESM5 CMCC-CM2-SR5"
-
 # run the extractor for each model specified
 if [ $model == "all" ]; then
+
+    # echo the models list
+    echo "[INFO] Calculating NAO anomalies for all models: $models"
 
     for model in $models; do
 

@@ -7,6 +7,11 @@
 # set the partition/account arguments for LOTUS based on usage context
 # SBATCH --partition=short-serial
 
+# import the models list
+source $PWD/models.bash
+# echo the models list
+echo "[INFO] Models list: $models"
+
 USAGE_MESSAGE="Usage: submit-all-multi-model.sub_MM.bash <location> <model> <start_year> <finish_year>"
 
 # check that the correct number of arguments have been passed
@@ -26,11 +31,11 @@ finish_year=$4
 # set the extractor script and the output directory
 EXTRACTOR=$PWD/multi-model.sub_MM.bash
 
-# set up the models list
-models="BCC-CSM2-MR MPI-ESM1-2-HR CanESM5 CMCC-CM2-SR5"
-
 # loop through the models
 if [ $model == "all" ]; then
+
+    # set up the model list
+    echo "[INFO] Subtracting model means for all models: $models"
 
     for model in $models; do
 

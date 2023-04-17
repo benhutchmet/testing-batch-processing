@@ -7,6 +7,11 @@
 # set the partition/account arguments for LOTUS based on usage context
 # SBATCH --partition=short-serial
 
+# import the models list
+source $PWD/models.bash
+# echo the models list
+echo "[INFO] Models list: $models"
+
 USAGE_MESSAGE="Usage: submit-all-multi-model.calc-bl.bash <location> <model>"
 
 # check that the correct number of arguments have been passed
@@ -22,11 +27,11 @@ model=$2
 # set the extractor script
 EXTRACTOR=$PWD/multi-model.calc-bl.bash
 
-# set up the model list
-models="BCC-CSM2-MR MPI-ESM1-2-HR CanESM5 CMCC-CM2-SR5"
-
 # loop through the models
 if [ $model == "all" ]; then
+
+    # set up the model list
+    echo "[INFO] Calculating the model mean state for model: $model"
 
     for model in $models; do
 
