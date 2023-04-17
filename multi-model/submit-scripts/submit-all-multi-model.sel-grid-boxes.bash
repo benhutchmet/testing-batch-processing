@@ -26,7 +26,7 @@ model=$4
 if [ $model == "all" ]; then
 
     # set up the model list
-    models="BCC-CSM2-MR MPI-ESM1-2-HR CanESM5 CMCC-CM2-SR5"
+    models="BCC-CSM2-MR MPI-ESM1-2-HR CanESM5 CMCC-CM2-SR5 HadGEM3-GC31-MM EC-Earth3"
 
     # loop through the models
     for model in $models; do
@@ -42,6 +42,10 @@ if [ $model == "all" ]; then
         elif [ $model == "CanESM5" ]; then
             run=20
         elif [ $model == "CMCC-CM2-SR5" ]; then
+            run=10
+        elif [ $model == "HadGEM3-GC31-MM" ]; then
+            run=10
+        elif [ $model == "EC-Earth3" ]; then
             run=10
         fi
 
@@ -91,6 +95,10 @@ else
         elif [ $model == "CanESM5" ]; then
             run=20
         elif [ $model == "CMCC-CM2-SR5" ]; then
+            run=10
+        elif [ $model == "HadGEM3-GC31-MM" ]; then
+            run=10
+        elif [ $model == "EC-Earth3" ]; then
             run=10
         fi
 

@@ -42,6 +42,10 @@ elif [ $model == "CanESM5" ]; then
     model_group="CCCma"
 elif [ $model == "CMCC-CM2-SR5" ]; then
     model_group="CMCC"
+elif [ $model == "HadGEM3-GC31-MM" ]; then
+    model_group="MOHC"
+elif [ $model == "EC-Earth3" ]; then
+    model_group="EC-Earth-Consortium"
 else
     echo "[ERROR] Model not recognised"
     exit 1
@@ -56,9 +60,18 @@ OUTPUT_DIR=/work/scratch-nopw/benhutch/$model/$location/outputs
 # make the output directory if it doesn't exist
 mkdir -p $OUTPUT_DIR
 
+
+
 # set the files to be processed
-# might run into issues with the ? in the path i?p?f?
-files=/badc/cmip6/data/CMIP6/DCPP/$model_group/$model/dcppA-hindcast/s${year}-r${run}i?p?f?/Amon/psl/gn/files/d????????/*.nc
+# depends on whether the final directory contains one single file or multiple files
+if [ $model == "BCC-CSM2-MR" ] || [ $model == "MPI-ESM1-2-HR" ] || [ $model == "CanESM5" ] || [ $model == "CMCC-CM2-SR5" ]; then
+    files=/badc/cmip6/data/CMIP6/DCPP/$model_group/$model/dcppA-hindcast/s${year}-r${run}i?p?f?/Amon/psl/gn/v20190710/*.nc
+elif [ $model == "HadGEM3-GC31-MM" ] || [ $model == "EC-Earth3" ]; then
+    files=/work/scratch-nopw/benhutch/$model/outputs/mergetime/*.nc
+else
+    echo "[ERROR] Model not recognised"
+    exit 1
+fi
 
 # activate the environment containing CDO
 module load jaspy
