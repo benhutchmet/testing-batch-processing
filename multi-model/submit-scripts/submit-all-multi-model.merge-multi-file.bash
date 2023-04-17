@@ -69,7 +69,7 @@ if [ $model == "all" ]; then
                 echo "[INFO] Submitting job for $model, s$year, r$run, i$init"
 
                 # submit the job to LOTUS
-                sbatch --partition=short-serial -t 5 -o $OUTPUT_DIR/$model-s$year-r$run-i$init.out $EXTRACTOR $model $year $run $init
+                sbatch --partition=short-serial -t 5 -o $OUTPUT_DIR/$model-s$year-r$run-i$init.%j.out -e $OUTPUT_DIR/$model-s$year-r$run-i$init.%j.err $EXTRACTOR $model $year $run $init
 
             done
         done
@@ -113,7 +113,7 @@ else
             echo "[INFO] Submitting job for $model, s$year, r$run, i$init"
 
             # submit the job to LOTUS
-            sbatch --partition=short-serial -t 5 -o $OUTPUT_DIR/$model-s$year-r$run-i$init.out $EXTRACTOR $model $year $run $init
+            sbatch --partition=short-serial -t 5 -o $OUTPUT_DIR/$model-s$year-r$run-i$init.%j.out -e $OUTPUT_DIR/$model-s$year-r$run-i$init.%j.err $EXTRACTOR $model $year $run $init
 
         done
     done
