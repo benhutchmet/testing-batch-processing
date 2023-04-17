@@ -1,5 +1,5 @@
 #!/bin/bash
-
+#
 # multi-file-mergetime-test.bash
 #
 # For example: multi-file-mergetime-test.bash HadGEM3-GC31-MM 1960 1 1
