@@ -65,9 +65,9 @@ mkdir -p $OUTPUT_DIR
 # set the files to be processed
 # depends on whether the final directory contains one single file or multiple files
 if [ $model == "BCC-CSM2-MR" ] || [ $model == "MPI-ESM1-2-HR" ] || [ $model == "CanESM5" ] || [ $model == "CMCC-CM2-SR5" ]; then
-    files=/badc/cmip6/data/CMIP6/DCPP/$model_group/$model/dcppA-hindcast/s${year}-r${run}i?p?f?/Amon/psl/gn/v20190710/*.nc
+    files=/badc/cmip6/data/CMIP6/DCPP/$model_group/$model/dcppA-hindcast/s${year}-r${run}i?p?f?/Amon/psl/gn/files/d????????/*.nc
 elif [ $model == "HadGEM3-GC31-MM" ] || [ $model == "EC-Earth3" ]; then
-    files=/work/scratch-nopw/benhutch/$model/outputs/mergetime/*.nc
+    files=/work/scratch-nopw/benhutch/$model/outputs/mergetime/*s${year}*.nc
 else
     echo "[ERROR] Model not recognised"
     exit 1
