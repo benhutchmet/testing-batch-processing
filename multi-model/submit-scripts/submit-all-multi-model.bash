@@ -5,7 +5,7 @@
 # Usage: submit-all-multi-model.bash <location> <start_year> <finish_year> <model>
 #
 # For example: submit-all-multi-model.bash azores 1960 1969 BCC-CSM2-MR
-
+#
 # set the partition/account arguments for LOTUS based on usage context
 # SBATCH --partition=short-serial
 

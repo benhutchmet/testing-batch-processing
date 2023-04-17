@@ -5,6 +5,7 @@
 # Usage: multi-model.sel-grid-boxes.bash <year> <run> <location> <model>    
 #
 # For example: multi-model.sel-grid-boxes.bash 1960 1 azores BCC-CSM2-MR
+#
 
 # get the year and run from the command line
 year=$1
