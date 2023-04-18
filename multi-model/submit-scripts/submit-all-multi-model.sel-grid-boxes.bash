@@ -64,18 +64,16 @@ if [ $model == "all" ]; then
         echo "[INFO] Number of ensemble members: $run"
 
         # depending on the model set the extractor script
-        # if single file model
-        # use the multi-model.sel-grid-boxes.bash script
-        if [[model == "BCC-CSM2-MR" || model == "MPI-ESM1-2-HR" || model == "CanESM5" || model == "CMCC-CM2-SR5" ]]; then
-            EXTRACTOR=$PWD/multi-model.sel-grid-boxes.bash
-        # else if multi-file model
-        # use the multi-model.multi-file.sel-grid-boxes.bash script
-        elif [[model == "HadGEM3-GC31-MM" || model == "EC-Earth3" ]]; then
+        if [[ $model == "BCC-CSM2-MR" || $model == "MPI-ESM1-2-HR" || $model == "CanESM5" || $model == "CMCC-CM2-SR5" ]]; then
+        EXTRACTOR=$PWD/multi-model.sel-grid-boxes.bash
+        elif [[ $model == "HadGEM3-GC31-MM" || $model == "EC-Earth3" ]]; then
             EXTRACTOR=$PWD/multi-model.multi-file.sel-grid-boxes.bash
         else
             echo "[ERROR] Model not recognised"
             exit 1
         fi
+
+        echo "The selected extractor for $model is $EXTRACTOR."
 
 
         # set the output directory
@@ -131,14 +129,18 @@ else
         echo "[INFO] Number of ensemble members: $run"
 
         # depending on the model set the extractor script
-        if [[model == "BCC-CSM2-MR" || model == "MPI-ESM1-2-HR" || model == "CanESM5" || model == "CMCC-CM2-SR5" ]]; then
-            EXTRACTOR=$PWD/multi-model.sel-grid-boxes.bash
-        elif [[model == "HadGEM3-GC31-MM" || model == "EC-Earth3" ]]; then
+        if [[ $model == "BCC-CSM2-MR" || $model == "MPI-ESM1-2-HR" || $model == "CanESM5" || $model == "CMCC-CM2-SR5" ]]; then
+        EXTRACTOR=$PWD/multi-model.sel-grid-boxes.bash
+        # else if multi-file model
+        # use the multi-model.multi-file.sel-grid-boxes.bash script
+        elif [[ $model == "HadGEM3-GC31-MM" || $model == "EC-Earth3" ]]; then
             EXTRACTOR=$PWD/multi-model.multi-file.sel-grid-boxes.bash
         else
             echo "[ERROR] Model not recognised"
             exit 1
         fi
+
+echo "The selected extractor for $model is $EXTRACTOR."
         
         # make the output directory if it doesn't exist
         mkdir -p $OUTPUTS_DIR
