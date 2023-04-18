@@ -5,3 +5,7 @@
 
 # list of models
 models="BCC-CSM2-MR MPI-ESM1-2-HR CanESM5 CMCC-CM2-SR5 HadGEM3-GC31-MM EC-Earth3"
+
+single_file_models="BCC-CSM2-MR MPI-ESM1-2-HR CanESM5 CMCC-CM2-SR5"
+
+multi_file_models="HadGEM3-GC31-MM EC-Earth3"
