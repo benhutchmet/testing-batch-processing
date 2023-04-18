@@ -5,9 +5,9 @@
 # Test script to check whether the data in scratch is usable
 # As some years and some ensemble members produce spurious HDF errors
 #
-# Usage: multi-model.multi-file.sel-grid-boxes.bash <location> <model> <year> <run>
+# Usage: multi-model.multi-file.sel-grid-boxes.bash <year> <run> <location> <model>
 #
-# For example: multi-model.multi-file.sel-grid-boxes.bash azores HadGEM3-GC31-MM 1960 1
+# For example: multi-model.multi-file.sel-grid-boxes.bash 1960 1 azores HadGEM3-GC31-MM
 #
 
 # import the models list
@@ -16,7 +16,7 @@ source $PWD/models.bash
 echo "[INFO] Multi-models list: $multi_file_models"
 
 # set the usage message
-USAGE_MESSAGE="Usage: sel-grid-box-HadGEM-EC-Earth.test.bash <location> <model> <year> <run>"
+USAGE_MESSAGE="Usage: sel-grid-box-HadGEM-EC-Earth.test.bash <year> <run> <location> <model>"
 
 # check that the correct number of arguments have been passed
 if [ $# -ne 4 ]; then
@@ -24,15 +24,11 @@ if [ $# -ne 4 ]; then
     exit 1
 fi
 
-# extract the location
-location=$1
-
-# extract the model, initial year and final year]
-model=$2
-year=$3
-
-# set the ensemble member
-run=$4
+# extract the args from the command line
+year=$1
+run=$2
+location=$3
+model=$4
 
 # set up an if loop for the location gridbox selection
 if [ $location == "azores" ]; then

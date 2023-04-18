@@ -26,9 +26,6 @@ fi
 # extract the location
 location=$1
 
-# set the extractor script and the output directory
-EXTRACTOR=$PWD/multi-model.sel-grid-boxes.bash
-
 # extract the start and finish years
 start_year=$2
 finish_year=$3
@@ -65,6 +62,20 @@ if [ $model == "all" ]; then
 
         # echo the number of ensemble members
         echo "[INFO] Number of ensemble members: $run"
+
+        # depending on the model set the extractor script
+        # if single file model
+        # use the multi-model.sel-grid-boxes.bash script
+        if [[model == "BCC-CSM2-MR" || model == "MPI-ESM1-2-HR" || model == "CanESM5" || model == "CMCC-CM2-SR5" ]]; then
+            EXTRACTOR=$PWD/multi-model.sel-grid-boxes.bash
+        # else if multi-file model
+        # use the multi-model.multi-file.sel-grid-boxes.bash script
+        elif [[model == "HadGEM3-GC31-MM" || model == "EC-Earth3" ]]; then
+            EXTRACTOR=$PWD/multi-model.multi-file.sel-grid-boxes.bash
+        else
+            echo "[ERROR] Model not recognised"
+            exit 1
+        fi
 
 
         # set the output directory
@@ -119,6 +130,16 @@ else
         # echo the number of ensemble members
         echo "[INFO] Number of ensemble members: $run"
 
+        # depending on the model set the extractor script
+        if [[model == "BCC-CSM2-MR" || model == "MPI-ESM1-2-HR" || model == "CanESM5" || model == "CMCC-CM2-SR5" ]]; then
+            EXTRACTOR=$PWD/multi-model.sel-grid-boxes.bash
+        elif [[model == "HadGEM3-GC31-MM" || model == "EC-Earth3" ]]; then
+            EXTRACTOR=$PWD/multi-model.multi-file.sel-grid-boxes.bash
+        else
+            echo "[ERROR] Model not recognised"
+            exit 1
+        fi
+        
         # make the output directory if it doesn't exist
         mkdir -p $OUTPUTS_DIR
     
