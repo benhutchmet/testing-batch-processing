@@ -59,6 +59,46 @@ if [ $model == "all" ]; then
         # echo the year
         echo "[INFO] Year being processed: $year"
 
+        # if model=EC-Earth3, then we need to loop through the initializations
+        if [ $model == "EC-Earth3" ]; then
+
+            # set the number of initializations
+            init=2
+
+            # loop over the initializations
+            for init in $(seq 1 $init); do
+
+                # echo the initialization
+                echo "initialization scheme: $init"
+
+                # loop over the ensemble members
+                for run in $(seq 1 $run); do
+                    
+                    # i2 only exists for r6-10
+                    # this should spit an error for r1-5 i2
+                    # but this isn't a problem
+
+                    # set the date
+                    year=$(printf "%d" $year)
+                    run=$(printf "%d" $run)
+                    init=$(printf "%d" $init)
+                    echo "[INFO] Submitting job for $model, s$year, r$run, i$init"
+
+                    # submit the job to LOTUS
+                    sbatch --partition=short-serial -t 5 -o $OUTPUT_DIR/$model-s$year-r$run-i$init.%j.out -e $OUTPUT_DIR/$model-s$year-r$run-i$init.%j.err $EXTRACTOR $model $year $run $init
+
+                done
+            done
+
+        else
+
+            # set the number of initializations
+            # HadGEM3-GC31-MM only has one initialization scheme
+            init=1
+
+            # echo the number of initializations and the model
+            echo "[INFO] No. of initializations: $init for model: $model"
+
             # loop over the ensemble members
             for run in $(seq 1 $run); do
                 
@@ -72,6 +112,7 @@ if [ $model == "all" ]; then
                 sbatch --partition=short-serial -t 5 -o $OUTPUT_DIR/$model-s$year-r$run-i$init.%j.out -e $OUTPUT_DIR/$model-s$year-r$run-i$init.%j.err $EXTRACTOR $model $year $run $init
 
             done
+        fi
         done
     done
 else
@@ -103,19 +144,60 @@ else
         # echo the year
         echo "[INFO] Year being processed: $year"
 
-        # loop over the ensemble members
-        for run in $(seq 1 $run); do
-            
-            # set the date
-            year=$(printf "%d" $year)
-            run=$(printf "%d" $run)
-            init=$(printf "%d" $init)
-            echo "[INFO] Submitting job for $model, s$year, r$run, i$init"
+        # if model=EC-Earth3, then we need to loop through the initializations
+        # if model=EC-Earth3, then we need to loop through the initializations
+        if [ $model == "EC-Earth3" ]; then
 
-            # submit the job to LOTUS
-            sbatch --partition=short-serial -t 5 -o $OUTPUT_DIR/$model-s$year-r$run-i$init.%j.out -e $OUTPUT_DIR/$model-s$year-r$run-i$init.%j.err $EXTRACTOR $model $year $run $init
+            # set the number of initializations
+            init=2
 
-        done
+            # loop over the initializations
+            for init in $(seq 1 $init); do
+
+                # echo the initialization
+                echo "initialization scheme: $init"
+
+                # loop over the ensemble members
+                for run in $(seq 1 $run); do
+                    
+                    # i2 only exists for r6-10
+                    # this should spit an error for r1-5 i2
+                    # but this isn't a problem
+
+                    # set the date
+                    year=$(printf "%d" $year)
+                    run=$(printf "%d" $run)
+                    init=$(printf "%d" $init)
+                    echo "[INFO] Submitting job for $model, s$year, r$run, i$init"
+
+                    # submit the job to LOTUS
+                    sbatch --partition=short-serial -t 5 -o $OUTPUT_DIR/$model-s$year-r$run-i$init.%j.out -e $OUTPUT_DIR/$model-s$year-r$run-i$init.%j.err $EXTRACTOR $model $year $run $init
+
+                done
+            done
+
+        else
+
+            # set the number of initializations
+            # HadGEM3-GC31-MM only has one initialization scheme
+            init=1
+
+            # echo the number of initializations and the model
+            echo "[INFO] No. of initializations: $init for model: $model"
+
+            # loop over the ensemble members
+            for run in $(seq 1 $run); do
+                
+                # set the date
+                year=$(printf "%d" $year)
+                run=$(printf "%d" $run)
+                init=$(printf "%d" $init)
+                echo "[INFO] Submitting job for $model, s$year, r$run, i$init"
+
+                # submit the job to LOTUS
+                sbatch --partition=short-serial -t 5 -o $OUTPUT_DIR/$model-s$year-r$run-i$init.%j.out -e $OUTPUT_DIR/$model-s$year-r$run-i$init.%j.err $EXTRACTOR $model $year $run $init
+
+            done
     done
 fi 
 
