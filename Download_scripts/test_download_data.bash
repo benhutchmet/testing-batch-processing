@@ -18,6 +18,20 @@ time_frequency=mon
 variable=psl
 institution_id=NCAR
 source_id=CESM1-CAM5-CMIP5
-# specify the subset of the data to download
-# http://esgf-data.dkrz.de/esg-search/wget?experiment=decadal2000&variable=tas&limit=2000&download_structure=project,product,institute,model,experiment,time_frequency,realm,cmor_table,ensemble,variable
+
+# generate URL for wget script
+url="https://esgf-node.llnl.gov/esg-search/wget?project=$project&experiment=$experiment&time_frequency=$time_frequency&variable=$variable&institution_id=$institution_id&source_id=$source_id"
+
+# echo the characteristics of the data to be downloaded
+echo "[INFO] Downloading data from: $url"
+echo "[INFO] Downloading data to: $download_dir"
+echo "[INFO] Project: $project"
+echo "[INFO] Experiment: $experiment"
+echo "[INFO] Time Frequency: $time_frequency"
+echo "[INFO] Variable: $variable"
+echo "[INFO] Institution ID: $institution_id"
+echo "[INFO] Source ID: $source_id"
+
+# Create wget script and download data
+wget --no-check-certificate --content-disposition --recursive --level=1 --accept .nc -P $download_dir $url
 
