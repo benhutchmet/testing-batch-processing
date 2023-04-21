@@ -42,3 +42,4 @@ wget --no-check-certificate --content-disposition --recursive --level=1 --accept
 # this one works for CMIP6
 https://esgf-data.dkrz.de/esg-search/wget?project=CMIP6&experiment_id=dcppA-hindcast&source_id=HadGEM3-GC31-MM&table_id=Amon&variable_id=psl&limit=8000
 
+https://claut.gitlab.io/man_ccia/lab2.html
