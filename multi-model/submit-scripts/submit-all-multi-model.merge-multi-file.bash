@@ -198,6 +198,7 @@ else
                 sbatch --partition=short-serial -t 5 -o $OUTPUT_DIR/$model-s$year-r$run-i$init.%j.out -e $OUTPUT_DIR/$model-s$year-r$run-i$init.%j.err $EXTRACTOR $model $year $run $init
 
             done
+        fi
     done
 fi 
 
