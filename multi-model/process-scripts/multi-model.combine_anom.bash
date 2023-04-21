@@ -29,7 +29,8 @@ mkdir -p $OUTPUT_DIR
 module load jaspy
 
 # if statement for the EC-earth init case
-if [ $model == "EC-Earth3" ]; then
+# NorCPM1 also has 2 init schemes
+if [[ $model == "EC-Earth3" ] || [ $model == "NorCPM1" ]]; then
 
     # echo the model being processed
     echo "[INFO] Model being processed has multiple initialization schemes: $model"
