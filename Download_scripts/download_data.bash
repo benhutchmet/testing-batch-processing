@@ -38,3 +38,8 @@ url="https://esgf-node.llnl.gov/esg-search/wget?project=$project&experiment=$exp
 
 # Create wget script and download data
 wget --no-check-certificate --content-disposition --recursive --level=1 --accept .nc -P $download_dir $url
+
+# this one works for CMIP6
+https://esgf-data.dkrz.de/esg-search/wget?project=CMIP6&experiment_id=dcppA-hindcast&source_id=HadGEM3-GC31-MM&table_id=Amon&variable_id=psl&limit=8000
+
+https://claut.gitlab.io/man_ccia/lab2.html
