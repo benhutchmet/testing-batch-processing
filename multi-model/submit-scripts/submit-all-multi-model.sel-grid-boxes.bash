@@ -58,15 +58,36 @@ if [ $model == "all" ]; then
             run=10
         elif [ $model == "EC-Earth3" ]; then
             run=10
+        elif [ $model == "EC-Earth3-HR" ]; then
+            run=10
+        elif [ $model == "MRI-ESM2-0" ]; then
+            run=10
+        elif [ $model == "MPI-ESM1-2-HR" ]; then
+            run=16
+        elif [ $model == "FGOALS-f3-L" ]; then
+            run=9
+        elif [ $model == "CNRM-ESM2-1" ]; then
+            run=10
+        elif [ $model == "MIROC6" ]; then
+            run=10
+        elif [ $model == "IPSL-CM6A-LR" ]; then
+            run=10
+        elif [ $model == "CESM1-1-CAM5-CMIP5" ]; then
+            run=40
+        elif [ $model == "NorCPM1" ]; then
+            run=10
+        else
+            echo "[ERROR] Model not recognised"
+            exit 1
         fi
-
+        
         # echo the number of ensemble members
         echo "[INFO] Number of ensemble members: $run"
 
         # depending on the model set the extractor script
-        if [[ $model == "BCC-CSM2-MR" || $model == "MPI-ESM1-2-HR" || $model == "CanESM5" || $model == "CMCC-CM2-SR5" ]]; then
-        EXTRACTOR=$PWD/multi-model.sel-grid-boxes.bash
-        elif [[ $model == "HadGEM3-GC31-MM" || $model == "EC-Earth3" ]]; then
+        if [[ $model == "BCC-CSM2-MR" || $model == "MPI-ESM1-2-HR" || $model == "CanESM5" || $model == "CMCC-CM2-SR5" || $model == "MRI-ESM2-0" || $model == "MPI-ESM1-2-HR" || $model == "FGOALS-f3-L" || $model == "CNRM-ESM2-1" || $model == "MIROC6" || $model == "IPSL-CM6A-LR" || $model == "CESM1-1-CAM5-CMIP5" || $model == "NorCPM1" ]]; then
+            EXTRACTOR=$PWD/multi-model.sel-grid-boxes.bash
+        elif [[ $model == "HadGEM3-GC31-MM" || $model == "EC-Earth3" || $model == "EC-Earth3-HR" ]]; then
             EXTRACTOR=$PWD/multi-model.multi-file.sel-grid-boxes.bash
         else
             echo "[ERROR] Model not recognised"
@@ -111,6 +132,7 @@ else
         OUTPUTS_DIR=/work/scratch-nopw/benhutch/$model/$location/lotus-outputs
 
         # set up the number of ensemble members to extract
+        # set up the number of ensemble members to extract
         if [ $model == "BCC-CSM2-MR" ]; then
             run=8
         elif [ $model == "MPI-ESM1-2-HR" ]; then
@@ -123,6 +145,27 @@ else
             run=10
         elif [ $model == "EC-Earth3" ]; then
             run=10
+        elif [ $model == "EC-Earth3-HR" ]; then
+            run=10
+        elif [ $model == "MRI-ESM2-0" ]; then
+            run=10
+        elif [ $model == "MPI-ESM1-2-HR" ]; then
+            run=16
+        elif [ $model == "FGOALS-f3-L" ]; then
+            run=9
+        elif [ $model == "CNRM-ESM2-1" ]; then
+            run=10
+        elif [ $model == "MIROC6" ]; then
+            run=10
+        elif [ $model == "IPSL-CM6A-LR" ]; then
+            run=10
+        elif [ $model == "CESM1-1-CAM5-CMIP5" ]; then
+            run=40
+        elif [ $model == "NorCPM1" ]; then
+            run=10
+        else
+            echo "[ERROR] Model not recognised"
+            exit 1
         fi
 
         # echo the number of ensemble members
