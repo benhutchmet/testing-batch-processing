@@ -37,8 +37,8 @@ wget_scripts_dir="/home/users/benhutch/multi-model/download_scripts/wget_scripts
 for ((i=0; i<${#ESGF_models[@]}; i++)); do
 
     # set the model and node
-    model=${ESGF_models[$i]}
-    node=${ESGF_nodes[$i]}
+    model=${ESGF_models[i]}
+    node=${ESGF_nodes[i]}
 
     # echo the model and node
     echo "[INFO] Downloading wget script for $model from $node"
@@ -52,7 +52,7 @@ for ((i=0; i<${#ESGF_models[@]}; i++)); do
     wget_script_path="$wget_scripts_dir$wget_script_name"
     
     # download the wget script
-    wget -0 $wget_script_path $url
+    wget -O $wget_script_path $url
     # make the wget script executable
     chmod +x $wget_script_path
 
