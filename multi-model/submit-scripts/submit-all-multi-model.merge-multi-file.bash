@@ -27,7 +27,7 @@ init=1
 EXTRACTOR=$PWD/multi-model.merge-multi-file.bash
 
 # set up the model list
-models="EC-Earth3 HadGEM3-GC31-MM"
+models="EC-Earth3 HadGEM3-GC31-MM EC-Earth3-HR"
 
 # run the extractor script for each model
 if [ $model == "all" ]; then
@@ -40,6 +40,8 @@ if [ $model == "all" ]; then
         if [ $model == "HadGEM3-GC31-MM" ]; then
             run=10
         elif [ $model == "EC-Earth3" ]; then
+            run=10
+        elif [ $model == "EC-Earth3-HR" ]; then
             run=10
         else
             echo "[ERROR] No. of ensemble members not known for $model"
@@ -90,11 +92,19 @@ if [ $model == "all" ]; then
                 done
             done
 
+        # else if model is HadGEM3-GC31-MM
         else
 
             # set the number of initializations
             # HadGEM3-GC31-MM only has one initialization scheme
-            init=1
+            if [ $model == "HadGEM3-GC31-MM" ]; then
+                init=1
+            elif [ $model == "EC-Earth3-HR" ]; then
+                init=2
+            else
+                echo "[ERROR] No. of initializations not known for $model"
+                exit 1
+            fi
 
             # echo the number of initializations and the model
             echo "[INFO] No. of initializations: $init for model: $model"
@@ -129,6 +139,8 @@ else
     if [ $model == "HadGEM3-GC31-MM" ]; then
         run=10
     elif [ $model == "EC-Earth3" ]; then
+        run=10
+    elif [ $model == "EC-Earth3-HR" ]; then
         run=10
     else
         echo "[ERROR] No. of ensemble members not known for $model"
@@ -180,7 +192,14 @@ else
 
             # set the number of initializations
             # HadGEM3-GC31-MM only has one initialization scheme
-            init=1
+            if [ $model == "HadGEM3-GC31-MM" ]; then
+                init=1
+            elif [ $model == "EC-Earth3-HR" ]; then
+                init=2
+            else
+                echo "[ERROR] No. of initializations not known for $model"
+                exit 1
+            fi
 
             # echo the number of initializations and the model
             echo "[INFO] No. of initializations: $init for model: $model"
