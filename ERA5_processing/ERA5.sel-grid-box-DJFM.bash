@@ -46,6 +46,17 @@ output_file="$OUTPUT_DIR/$output_fname"
 # activate the environmnet containing CDO
 module load jaspy
 
-# select the gridbox
-cdo sellonlatbox,$lon1,$lon2,$lat1,$lat2 $file $output_file
+# select the gridbox and months DJFM
+cdo select,season=DJFM -sellonlatbox,$lon1,$lon2,$lat1,$lat2 $file $output_file
+
+# calculate the model mean state for all DJFM
+# set up the output file name
+model_mean_state="ERA5.${location}-gridbox.psl.DJFM.model-mean-state.nc"
+cdo timmean $output_file $OUTPUT_DIR/$model_mean_state
+
+# subtract the model mean state from the data
+# set up the output file name
+output_fname="ERA5.${location}-gridbox.psl.DJFM.anomalies.nc"
+cdo sub $output_file $OUTPUT_DIR/$model_mean_state $OUTPUT_DIR/$output_fname
+
 
