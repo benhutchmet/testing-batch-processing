@@ -46,17 +46,25 @@ output_file="$OUTPUT_DIR/$output_fname"
 # activate the environmnet containing CDO
 module load jaspy
 
+# first convert the grib file to netcdf
+cdo -f nc copy $file $output_file
+
 # select the gridbox and months DJFM
-cdo select,season=DJFM -sellonlatbox,$lon1,$lon2,$lat1,$lat2 $file $output_file
+# set up the output file name
+ERA5-DJFM-LOCATION-NC-FILE="ERA5.${location}-gridbox.psl.DJFM.nc"
+cdo select,season=DJFM -sellonlatbox,$lon1,$lon2,$lat1,$lat2 $output_file $OUTPUT_DIR/$ERA5-DJFM-LOCATION-NC-FILE
 
 # calculate the model mean state for all DJFM
 # set up the output file name
 model_mean_state="ERA5.${location}-gridbox.psl.DJFM.model-mean-state.nc"
-cdo timmean $output_file $OUTPUT_DIR/$model_mean_state
+cdo timmean $OUTPUT_DIR/$ERA5-DJFM-LOCATION-NC-FILE $OUTPUT_DIR/$model_mean_state
 
 # subtract the model mean state from the data
 # set up the output file name
 output_fname="ERA5.${location}-gridbox.psl.DJFM.anomalies.nc"
-cdo sub $output_file $OUTPUT_DIR/$model_mean_state $OUTPUT_DIR/$output_fname
+cdo sub $OUTPUT_DIR/$ERA5-DJFM-LOCATION-NC-FILE $OUTPUT_DIR/$model_mean_state $OUTPUT_DIR/$output_fname
 
-
+# shift the time axis by 3 months to calculate the DJFM means
+# set up the output file name
+final_output_fname="ERA5.${location}-gridbox.psl.DJFM.mean.anomalies.nc"
+cdo yearmean -shifttime,-3mo -selmon,9,10,11,12 $OUTPUT_DIR/$output_fname $OUTPUT_DIR/$final_output_fname
