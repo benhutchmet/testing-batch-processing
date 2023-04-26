@@ -33,6 +33,9 @@ if [ $model == "HadGEM3-GC31-MM" ]; then
 elif [ $model == "EC-Earth3" ]; then
     # set the files to be processed
     model_group="EC-Earth-Consortium"
+elif [ $model == "EC-Earth3-HR" ]; then
+    # set the files to be processed
+    model_group="EC-Earth-Consortium"
 else 
     echo "[ERROR] Model name not recognised"
     exit 1
@@ -43,13 +46,34 @@ echo "Model: $model"
 echo "Model group: $model_group"
 
 # set up the files
-files="/badc/cmip6/data/CMIP6/DCPP/$model_group/$model/dcppA-hindcast/s${init_year}-r${run}i${init}p?f?/Amon/psl/g?/files/d????????/*.nc"
+# if the model is HadGEM3-GC31-MM or EC-Earth3
+# then the files are in the format:
+# /badc/cmip6/data/CMIP6/DCPP/$model_group/$model/dcppA-hindcast/s${init_year}-r${run}i${init}p?f?/Amon/psl/g?/files/d????????/*.nc
+if [ $model == "HadGEM3-GC31-MM" ] || [ $model == "EC-Earth3" ]; then
+    files="/badc/cmip6/data/CMIP6/DCPP/$model_group/$model/dcppA-hindcast/s${init_year}-r${run}i${init}p?f?/Amon/psl/g?/files/d????????/*.nc"
+elif [ $model == "EC-Earth3-HR" ]; then
+    files="/work/xfc/vol5/user_cache/benhutch/$model_group/$model/psl_Amon_${model}_dcppA-hindcast_s${init_year}-r${run}i${init}p?f?_g?_*.nc"
+else
+    echo "[ERROR] Model name not recognised"
+    exit 1
+fi
+
+
+# test the files
+# /work/xfc/vol5/user_cache/benhutch/EC-Earth-Consortium/EC-Earth3-HR/psl_Amon_EC-Earth3-HR_dcppA-hindcast_s1995-r5i2p?f?_g?_*.nc
 
 # activate the environment containing CDO
 module load jaspy
 
 # set up the final year for the filename
-final_year=$((init_year+11))
+if [ $model == "HadGEM3-GC31-MM" ] || [ $model == "EC-Earth3" ]; then
+    final_year=$((init_year+11))
+elif [ $model == "EC-Earth3-HR" ]; then
+    final_year=$((init_year+5))
+else
+    echo "[ERROR] Model name not recognised"
+    exit 1
+fi
 
 # set up the filename for the merged file
 merged_fname="psl_Amon_${model}_dcppA-hindcast_s${init_year}-r${run}i${init}_gn_${init_year}11-${final_year}03.nc"

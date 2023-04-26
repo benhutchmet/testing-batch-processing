@@ -16,7 +16,7 @@ source $PWD/models.bash
 echo "[INFO] Multi-models list: $multi_file_models"
 
 # set the usage message
-USAGE_MESSAGE="Usage: sel-grid-box-HadGEM-EC-Earth.test.bash <year> <run> <location> <model>"
+USAGE_MESSAGE="Usage: multi-model.multi-file.sel-grid-boxes.bash <year> <run> <location> <model>"
 
 # check that the correct number of arguments have been passed
 if [ $# -ne 4 ]; then
@@ -50,6 +50,8 @@ fi
 if [ $model == "HadGEM3-GC31-MM" ]; then
     model_group="MOHC"
 elif [ $model == "EC-Earth3" ]; then
+    model_group="EC-Earth-Consortium"
+elif [ $model == "EC-Earth3-HR" ]; then
     model_group="EC-Earth-Consortium"
 else
     echo "[ERROR] Model not recognised"
