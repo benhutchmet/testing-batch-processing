@@ -14,17 +14,27 @@ run=$2
 # extract the location from the command line
 location=$3
 
+# set up the gridspec files
+azores_grid="/home/users/benhutch/ERA5_psl/gridspec-azores.txt"
+iceland_grid="/home/users/benhutch/ERA5_psl/gridspec-iceland.txt"
+
 # set up an if loop for the location gridbox selection
 if [ $location == "azores" ]; then
+    # set the dimensions of the gridbox
     lon1=-28
     lon2=-20
     lat1=36
     lat2=40
+    # set the grid file
+    grid=$azores_grid
 elif [ $location == "iceland" ]; then
+    # set the dimensions of the gridbox
     lon1=-25
     lon2=-16
     lat1=63
     lat2=70
+    # set the grid file
+    grid=$iceland_grid
 else
     echo "[ERROR] Location not recognised"
     exit 1
@@ -102,8 +112,16 @@ for INPUT_FILE in $files; do
 
     echo "[INFO] Subsetting: $INPUT_FILE"
     fname=${location}-$(basename $INPUT_FILE)
+    temp_fname=${location}-temp-$(basename $INPUT_FILE)
     OUTPUT_FILE=$OUTPUT_DIR/$fname
-    cdo sellonlatbox,$lon1,$lon2,$lat1,$lat2 $INPUT_FILE $OUTPUT_FILE
+    TEMP_FILE=$OUTPUT_DIR/$temp_fname
+    # perform the remapping to a 2.5x2.5 grid
+    cdo remapbil,$grid $INPUT_FILE $TEMP_FILE
+    # select the gridbox
+    cdo sellonlatbox,$lon1,$lon2,$lat1,$lat2 $TEMP_FILE $OUTPUT_FILE
+
+    # remove the temporary file
+    rm $TEMP_FILE
 
 done
 

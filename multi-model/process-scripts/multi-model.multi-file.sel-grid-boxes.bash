@@ -30,17 +30,27 @@ run=$2
 location=$3
 model=$4
 
+# set up the gridspec files
+azores_grid="/home/users/benhutch/ERA5_psl/gridspec-azores.txt"
+iceland_grid="/home/users/benhutch/ERA5_psl/gridspec-iceland.txt"
+
 # set up an if loop for the location gridbox selection
 if [ $location == "azores" ]; then
+    # set the lat lon box
     lon1=-28
     lon2=-20
     lat1=36
     lat2=40
+    # set the grid
+    grid=$azores_grid
 elif [ $location == "iceland" ]; then
+    # set the lat lon box
     lon1=-25
     lon2=-16
     lat1=63
     lat2=70
+    # set the grid
+    grid=$iceland_grid
 else
     echo "[ERROR] Location not recognised"
     exit 1
@@ -78,8 +88,15 @@ for INPUT_FILE in $files; do
 
     echo "[INFO] Processing file: $INPUT_FILE"
     fname=${location}-$(basename $INPUT_FILE)
+    temp_fname=${location}-temp-$(basename $INPUT_FILE)
     OUTPUT_FILE=$OUTPUT_DIR/$fname
+    TEMP_FILE=$OUTPUT_DIR/$temp_fname
+    # remap the file to the 2.5x2.5 grid using bilinear interpolation
+    cdo remapbil,$grid $INPUT_FILE $TEMP_FILE
     # select the lat lon box
     cdo sellonlatbox,$lon1,$lon2,$lat1,$lat2 $INPUT_FILE $OUTPUT_FILE
+
+    # remove the temporary file
+    rm $TEMP_FILE
 
 done

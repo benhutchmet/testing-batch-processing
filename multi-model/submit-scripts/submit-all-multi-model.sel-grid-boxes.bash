@@ -172,16 +172,16 @@ else
         echo "[INFO] Number of ensemble members: $run"
 
         # depending on the model set the extractor script
-        if [[ $model == "BCC-CSM2-MR" || $model == "MPI-ESM1-2-HR" || $model == "CanESM5" || $model == "CMCC-CM2-SR5" ]]; then
-        EXTRACTOR=$PWD/multi-model.sel-grid-boxes.bash
-        # else if multi-file model
-        # use the multi-model.multi-file.sel-grid-boxes.bash script
-        elif [[ $model == "HadGEM3-GC31-MM" || $model == "EC-Earth3" ]]; then
+        if [[ $model == "BCC-CSM2-MR" || $model == "MPI-ESM1-2-HR" || $model == "CanESM5" || $model == "CMCC-CM2-SR5" || $model == "MRI-ESM2-0" || $model == "MPI-ESM1-2-HR" || $model == "FGOALS-f3-L" || $model == "CNRM-ESM2-1" || $model == "MIROC6" || $model == "IPSL-CM6A-LR" || $model == "CESM1-1-CAM5-CMIP5" || $model == "NorCPM1" ]]; then
+            EXTRACTOR=$PWD/multi-model.sel-grid-boxes.bash
+        elif [[ $model == "HadGEM3-GC31-MM" || $model == "EC-Earth3" || $model == "EC-Earth3-HR" ]]; then
             EXTRACTOR=$PWD/multi-model.multi-file.sel-grid-boxes.bash
         else
             echo "[ERROR] Model not recognised"
             exit 1
         fi
+
+        echo "The selected extractor for $model is $EXTRACTOR."
 
 echo "The selected extractor for $model is $EXTRACTOR."
         
