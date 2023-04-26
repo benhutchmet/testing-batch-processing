@@ -44,35 +44,35 @@ fi
 model=$4
 
 # set up an if loop for the model name
-if [ $model == "BCC-CSM2-MR" ]; then
+if [ "$model" == "BCC-CSM2-MR" ]; then
     model_group="BCC"
-elif [ $model == "MPI-ESM1-2-HR" ]; then
+elif [ "$model" == "MPI-ESM1-2-HR" ]; then
     model_group="MPI-M"
-elif [ $model == "CanESM5" ]; then
+elif [ "$model" == "CanESM5" ]; then
     model_group="CCCma"
-elif [ $model == "CMCC-CM2-SR5" ]; then
+elif [ "$model" == "CMCC-CM2-SR5" ]; then
     model_group="CMCC"
-elif [ $model == "HadGEM3-GC31-MM" ]; then
+elif [ "$model" == "HadGEM3-GC31-MM" ]; then
     model_group="MOHC"
-elif [ $model == "EC-Earth3" ]; then
+elif [ "$model" == "EC-Earth3" ]; then
     model_group="EC-Earth-Consortium"
-elif [ $model == "EC-Earth3-HR" ]; then
+elif [ "$model" == "EC-Earth3-HR" ]; then
     model_group="EC-Earth-Consortium"
-elif [ $model == "MRI-ESM2-0" ]; then
+elif [ "$model" == "MRI-ESM2-0" ]; then
     model_group="MRI"
-elif [ $model == "MPI-ESM1-2-LR" ]; then
+elif [ "$model" == "MPI-ESM1-2-LR" ]; then
     model_group="DWD"
-elif [ $model == "FGOALS-f3-L" ]; then
+elif [ "$model" == "FGOALS-f3-L" ]; then
     model_group="CAS"
-elif [ $model =="CNRM-ESM2-1" ]; then
+elif [ "$model" =="CNRM-ESM2-1" ]; then
     model_group="CNRM-CERFACS"
-elif [ $model == "MIROC6" ]; then
+elif [ "$model" == "MIROC6" ]; then
     model_group="MIROC"
-elif [ $model =="IPSL-CM6A-LR" ]; then
+elif [ "$model" =="IPSL-CM6A-LR" ]; then
     model_group="IPSL"
-elif [ $model =="CESM1-1-CAM5-CMIP5" ]; then
+elif [ "$model" =="CESM1-1-CAM5-CMIP5" ]; then
     model_group="NCAR"
-elif [ $model == "NorCPM1" ]; then
+elif [ "$model" == "NorCPM1" ]; then
     model_group="NCC"
 else
     echo "[ERROR] Model not recognised"
@@ -93,12 +93,12 @@ mkdir -p $OUTPUT_DIR
 # set the files to be processed
 # depends on whether the final directory contains one single file or multiple files
 # for the single file models store on JASMIN
-if [ $model == "BCC-CSM2-MR" ] || [ $model == "MPI-ESM1-2-HR" ] || [ $model == "CanESM5" ] || [ $model == "CMCC-CM2-SR5" ]; then
-    files=/badc/cmip6/data/CMIP6/DCPP/$model_group/$model/dcppA-hindcast/s${year}-r${run}i?p?f?/Amon/psl/gn/files/d????????/*.nc
+if [ "$model" == "BCC-CSM2-MR" ] || [ "$model" == "MPI-ESM1-2-HR" ] || [ "$model" == "CanESM5" ] || [ "$model" == "CMCC-CM2-SR5" ]; then
+    files="/badc/cmip6/data/CMIP6/DCPP/$model_group/$model/dcppA-hindcast/s${year}-r${run}i?p?f?/Amon/psl/gn/files/d????????/*.nc"
 # for the single file models downloaded from ESGF
-elif  [ $model =="MRI-ESM2-0" ] || [ $model == "MPI-ESM1-2-LR" ] || [ $model == "FGOALS-f3-L" ] || [ $model == "CNRM-ESM2-1" ] || [ $model == "MIROC6" ] || [ $model == "IPSL-CM6A-LR" ] || [ $model == "CESM1-1-CAM5-CMIP5" ] || [ $model == "NorCPM1" ]; then
+elif  [ "$model" =="MRI-ESM2-0" ] || [ "$model" == "MPI-ESM1-2-LR" ] || [ "$model" == "FGOALS-f3-L" ] || [ "$model" == "CNRM-ESM2-1" ] || [ "$model" == "MIROC6" ] || [ "$model" == "IPSL-CM6A-LR" ] || [ "$model" == "CESM1-1-CAM5-CMIP5" ] || [ "$model" == "NorCPM1" ]; then
     # check that this returns the files
-    files=ls -l /work/xfc/vol5/user_cache/benhutch/$model_group/$model/psl_Amon_${model}_dcppA-hindcast_s${year}-r${run}i*p*f*_g*_*.nc
+    files="/work/xfc/vol5/user_cache/benhutch/$model_group/$model/psl_Amon_${model}_dcppA-hindcast_s${year}-r${run}i*p*f*_g*_*.nc"
 else
     echo "[ERROR] Model not recognised"
     exit 1

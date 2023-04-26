@@ -34,7 +34,7 @@ finish_year=$3
 model=$4
 
 # if model=all, then run a for loop over all the models
-if [ $model == "all" ]; then
+if [ "$model" == "all" ]; then
 
     # set up the model list
     echo "[INFO] Extracting data for all models: $models"
@@ -46,35 +46,35 @@ if [ $model == "all" ]; then
         echo "[INFO] Extracting data for model: $model"
 
         # set up the number of ensemble members to extract
-        if [ $model == "BCC-CSM2-MR" ]; then
+        if [ "$model" == "BCC-CSM2-MR" ]; then
             run=8
-        elif [ $model == "MPI-ESM1-2-HR" ]; then
+        elif [ "$model" == "MPI-ESM1-2-HR" ]; then
             run=10
-        elif [ $model == "CanESM5" ]; then
+        elif [ "$model" == "CanESM5" ]; then
             run=20
-        elif [ $model == "CMCC-CM2-SR5" ]; then
+        elif [ "$model" == "CMCC-CM2-SR5" ]; then
             run=10
-        elif [ $model == "HadGEM3-GC31-MM" ]; then
+        elif [ "$model" == "HadGEM3-GC31-MM" ]; then
             run=10
-        elif [ $model == "EC-Earth3" ]; then
+        elif [ "$model" == "EC-Earth3" ]; then
             run=10
-        elif [ $model == "EC-Earth3-HR" ]; then
+        elif [ "$model" == "EC-Earth3-HR" ]; then
             run=10
-        elif [ $model == "MRI-ESM2-0" ]; then
+        elif [ "$model" == "MRI-ESM2-0" ]; then
             run=10
-        elif [ $model == "MPI-ESM1-2-HR" ]; then
+        elif [ "$model" == "MPI-ESM1-2-HR" ]; then
             run=16
-        elif [ $model == "FGOALS-f3-L" ]; then
+        elif [ "$model" == "FGOALS-f3-L" ]; then
             run=9
-        elif [ $model == "CNRM-ESM2-1" ]; then
+        elif [ "$model" == "CNRM-ESM2-1" ]; then
             run=10
-        elif [ $model == "MIROC6" ]; then
+        elif [ "$model" == "MIROC6" ]; then
             run=10
-        elif [ $model == "IPSL-CM6A-LR" ]; then
+        elif [ "$model" == "IPSL-CM6A-LR" ]; then
             run=10
-        elif [ $model == "CESM1-1-CAM5-CMIP5" ]; then
+        elif [ "$model" == "CESM1-1-CAM5-CMIP5" ]; then
             run=40
-        elif [ $model == "NorCPM1" ]; then
+        elif [ "$model" == "NorCPM1" ]; then
             run=10
         else
             echo "[ERROR] Model not recognised"
@@ -85,9 +85,9 @@ if [ $model == "all" ]; then
         echo "[INFO] Number of ensemble members: $run"
 
         # depending on the model set the extractor script
-        if [[ $model == "BCC-CSM2-MR" || $model == "MPI-ESM1-2-HR" || $model == "CanESM5" || $model == "CMCC-CM2-SR5" || $model == "MRI-ESM2-0" || $model == "MPI-ESM1-2-HR" || $model == "FGOALS-f3-L" || $model == "CNRM-ESM2-1" || $model == "MIROC6" || $model == "IPSL-CM6A-LR" || $model == "CESM1-1-CAM5-CMIP5" || $model == "NorCPM1" ]]; then
+        if [[ "$model" == "BCC-CSM2-MR" || "$model" == "MPI-ESM1-2-HR" || "$model" == "CanESM5" || "$model" == "CMCC-CM2-SR5" || "$model" == "MRI-ESM2-0" || "$model" == "MPI-ESM1-2-HR" || "$model" == "FGOALS-f3-L" || "$model" == "CNRM-ESM2-1" || "$model" == "MIROC6" || "$model" == "IPSL-CM6A-LR" || "$model" == "CESM1-1-CAM5-CMIP5" || "$model" == "NorCPM1" ]]; then
             EXTRACTOR=$PWD/multi-model.sel-grid-boxes.bash
-        elif [[ $model == "HadGEM3-GC31-MM" || $model == "EC-Earth3" || $model == "EC-Earth3-HR" ]]; then
+        elif [[ "$model" == "HadGEM3-GC31-MM" || "$model" == "EC-Earth3" || "$model" == "EC-Earth3-HR" ]]; then
             EXTRACTOR=$PWD/multi-model.multi-file.sel-grid-boxes.bash
         else
             echo "[ERROR] Model not recognised"
@@ -133,35 +133,35 @@ else
 
         # set up the number of ensemble members to extract
         # set up the number of ensemble members to extract
-        if [ $model == "BCC-CSM2-MR" ]; then
+        if [ "$model" == "BCC-CSM2-MR" ]; then
             run=8
-        elif [ $model == "MPI-ESM1-2-HR" ]; then
+        elif [ "$model" == "MPI-ESM1-2-HR" ]; then
             run=10
-        elif [ $model == "CanESM5" ]; then
+        elif [ "$model" == "CanESM5" ]; then
             run=20
-        elif [ $model == "CMCC-CM2-SR5" ]; then
+        elif [ "$model" == "CMCC-CM2-SR5" ]; then
             run=10
-        elif [ $model == "HadGEM3-GC31-MM" ]; then
+        elif [ "$model" == "HadGEM3-GC31-MM" ]; then
             run=10
-        elif [ $model == "EC-Earth3" ]; then
+        elif [ "$model" == "EC-Earth3" ]; then
             run=10
-        elif [ $model == "EC-Earth3-HR" ]; then
+        elif [ "$model" == "EC-Earth3-HR" ]; then
             run=10
-        elif [ $model == "MRI-ESM2-0" ]; then
+        elif [ "$model" == "MRI-ESM2-0" ]; then
             run=10
-        elif [ $model == "MPI-ESM1-2-HR" ]; then
+        elif [ "$model" == "MPI-ESM1-2-HR" ]; then
             run=16
-        elif [ $model == "FGOALS-f3-L" ]; then
+        elif [ "$model" == "FGOALS-f3-L" ]; then
             run=9
-        elif [ $model == "CNRM-ESM2-1" ]; then
+        elif [ "$model" == "CNRM-ESM2-1" ]; then
             run=10
-        elif [ $model == "MIROC6" ]; then
+        elif [ "$model" == "MIROC6" ]; then
             run=10
-        elif [ $model == "IPSL-CM6A-LR" ]; then
+        elif [ "$model" == "IPSL-CM6A-LR" ]; then
             run=10
-        elif [ $model == "CESM1-1-CAM5-CMIP5" ]; then
+        elif [ "$model" == "CESM1-1-CAM5-CMIP5" ]; then
             run=40
-        elif [ $model == "NorCPM1" ]; then
+        elif [ "$model" == "NorCPM1" ]; then
             run=10
         else
             echo "[ERROR] Model not recognised"
@@ -172,9 +172,9 @@ else
         echo "[INFO] Number of ensemble members: $run"
 
         # depending on the model set the extractor script
-        if [[ $model == "BCC-CSM2-MR" || $model == "MPI-ESM1-2-HR" || $model == "CanESM5" || $model == "CMCC-CM2-SR5" || $model == "MRI-ESM2-0" || $model == "MPI-ESM1-2-HR" || $model == "FGOALS-f3-L" || $model == "CNRM-ESM2-1" || $model == "MIROC6" || $model == "IPSL-CM6A-LR" || $model == "CESM1-1-CAM5-CMIP5" || $model == "NorCPM1" ]]; then
+        if [[ "$model" == "BCC-CSM2-MR" || "$model" == "MPI-ESM1-2-HR" || "$model" == "CanESM5" || "$model" == "CMCC-CM2-SR5" || "$model" == "MRI-ESM2-0" || "$model" == "MPI-ESM1-2-HR" || "$model" == "FGOALS-f3-L" || "$model" == "CNRM-ESM2-1" || "$model" == "MIROC6" || "$model" == "IPSL-CM6A-LR" || "$model" == "CESM1-1-CAM5-CMIP5" || "$model" == "NorCPM1" ]]; then
             EXTRACTOR=$PWD/multi-model.sel-grid-boxes.bash
-        elif [[ $model == "HadGEM3-GC31-MM" || $model == "EC-Earth3" || $model == "EC-Earth3-HR" ]]; then
+        elif [[ "$model" == "HadGEM3-GC31-MM" || "$model" == "EC-Earth3" || "$model" == "EC-Earth3-HR" ]]; then
             EXTRACTOR=$PWD/multi-model.multi-file.sel-grid-boxes.bash
         else
             echo "[ERROR] Model not recognised"

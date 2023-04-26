@@ -35,7 +35,7 @@ azores_grid="/home/users/benhutch/ERA5_psl/gridspec-azores.txt"
 iceland_grid="/home/users/benhutch/ERA5_psl/gridspec-iceland.txt"
 
 # set up an if loop for the location gridbox selection
-if [ $location == "azores" ]; then
+if [ "$location" == "azores" ]; then
     # set the lat lon box
     lon1=-28
     lon2=-20
@@ -43,7 +43,7 @@ if [ $location == "azores" ]; then
     lat2=40
     # set the grid
     grid=$azores_grid
-elif [ $location == "iceland" ]; then
+elif [ "$location" == "iceland" ]; then
     # set the lat lon box
     lon1=-25
     lon2=-16
@@ -57,11 +57,11 @@ else
 fi
 
 # set up an if loop for the model name
-if [ $model == "HadGEM3-GC31-MM" ]; then
+if [ "$model" == "HadGEM3-GC31-MM" ]; then
     model_group="MOHC"
-elif [ $model == "EC-Earth3" ]; then
+elif [ "$model" == "EC-Earth3" ]; then
     model_group="EC-Earth-Consortium"
-elif [ $model == "EC-Earth3-HR" ]; then
+elif [ "$model" == "EC-Earth3-HR" ]; then
     model_group="EC-Earth-Consortium"
 else
     echo "[ERROR] Model not recognised"
