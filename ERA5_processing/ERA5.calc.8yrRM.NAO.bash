@@ -25,4 +25,4 @@ cdo sub -fldmean $azores -fldmean $iceland $OUTPUT_DIR/nao-anomaly-ERA5.nc
 
 # take a forward running mean of 8 years
 # shift the time axis by 4 years 1964 - 1960
-cdo shifttime,4yr -runmean,8 $OUTPUT_DIR/nao-anomaly-ERA5.nc $OUTPUT_DIR/nao-anomaly-ERA5.8yrRM.nc
+cdo shifttime,-48mo -runmean,8 $OUTPUT_DIR/nao-anomaly-ERA5.nc $OUTPUT_DIR/nao-anomaly-ERA5.8yrRM.nc
