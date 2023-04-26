@@ -86,17 +86,11 @@ module load jaspy
 # loop through the files and process them
 for INPUT_FILE in $files; do
 
-    echo "[INFO] Processing file: $INPUT_FILE"
+    echo "[INFO] Subsetting: $INPUT_FILE"
     fname=${location}-$(basename $INPUT_FILE)
-    temp_fname=${location}-temp-$(basename $INPUT_FILE)
     OUTPUT_FILE=$OUTPUT_DIR/$fname
-    TEMP_FILE=$OUTPUT_DIR/$temp_fname
-    # remap the file to the 2.5x2.5 grid using bilinear interpolation
-    cdo remapbil,$grid $INPUT_FILE $TEMP_FILE
-    # select the lat lon box
-    cdo sellonlatbox,$lon1,$lon2,$lat1,$lat2 $INPUT_FILE $OUTPUT_FILE
-
-    # remove the temporary file
-    rm $TEMP_FILE
+    # perform the remapping to a 2.5x2.5 grid
+    # select the gridbox and remap
+    cdo sellonlatbox,$lon1,$lon2,$lat1,$lat2 -remapbil,$grid $INPUT_FILE $OUTPUT_FILE
 
 done

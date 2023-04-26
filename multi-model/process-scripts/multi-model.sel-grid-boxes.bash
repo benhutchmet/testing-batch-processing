@@ -19,7 +19,7 @@ azores_grid="/home/users/benhutch/ERA5_psl/gridspec-azores.txt"
 iceland_grid="/home/users/benhutch/ERA5_psl/gridspec-iceland.txt"
 
 # set up an if loop for the location gridbox selection
-if [ $location == "azores" ]; then
+if [ "$location" == "azores" ]; then
     # set the dimensions of the gridbox
     lon1=-28
     lon2=-20
@@ -27,7 +27,7 @@ if [ $location == "azores" ]; then
     lat2=40
     # set the grid file
     grid=$azores_grid
-elif [ $location == "iceland" ]; then
+elif [ "$location" == "iceland" ]; then
     # set the dimensions of the gridbox
     lon1=-25
     lon2=-16
@@ -64,13 +64,13 @@ elif [ "$model" == "MPI-ESM1-2-LR" ]; then
     model_group="DWD"
 elif [ "$model" == "FGOALS-f3-L" ]; then
     model_group="CAS"
-elif [ "$model" =="CNRM-ESM2-1" ]; then
+elif [ "$model" == "CNRM-ESM2-1" ]; then
     model_group="CNRM-CERFACS"
 elif [ "$model" == "MIROC6" ]; then
     model_group="MIROC"
-elif [ "$model" =="IPSL-CM6A-LR" ]; then
+elif [ "$model" == "IPSL-CM6A-LR" ]; then
     model_group="IPSL"
-elif [ "$model" =="CESM1-1-CAM5-CMIP5" ]; then
+elif [ "$model" == "CESM1-1-CAM5-CMIP5" ]; then
     model_group="NCAR"
 elif [ "$model" == "NorCPM1" ]; then
     model_group="NCC"
@@ -96,7 +96,7 @@ mkdir -p $OUTPUT_DIR
 if [ "$model" == "BCC-CSM2-MR" ] || [ "$model" == "MPI-ESM1-2-HR" ] || [ "$model" == "CanESM5" ] || [ "$model" == "CMCC-CM2-SR5" ]; then
     files="/badc/cmip6/data/CMIP6/DCPP/$model_group/$model/dcppA-hindcast/s${year}-r${run}i?p?f?/Amon/psl/gn/files/d????????/*.nc"
 # for the single file models downloaded from ESGF
-elif  [ "$model" =="MRI-ESM2-0" ] || [ "$model" == "MPI-ESM1-2-LR" ] || [ "$model" == "FGOALS-f3-L" ] || [ "$model" == "CNRM-ESM2-1" ] || [ "$model" == "MIROC6" ] || [ "$model" == "IPSL-CM6A-LR" ] || [ "$model" == "CESM1-1-CAM5-CMIP5" ] || [ "$model" == "NorCPM1" ]; then
+elif  [ "$model" == "MRI-ESM2-0" ] || [ "$model" == "MPI-ESM1-2-LR" ] || [ "$model" == "FGOALS-f3-L" ] || [ "$model" == "CNRM-ESM2-1" ] || [ "$model" == "MIROC6" ] || [ "$model" == "IPSL-CM6A-LR" ] || [ "$model" == "CESM1-1-CAM5-CMIP5" ] || [ "$model" == "NorCPM1" ]; then
     # check that this returns the files
     files="/work/xfc/vol5/user_cache/benhutch/$model_group/$model/psl_Amon_${model}_dcppA-hindcast_s${year}-r${run}i*p*f*_g*_*.nc"
 else
@@ -112,13 +112,10 @@ for INPUT_FILE in $files; do
 
     echo "[INFO] Subsetting: $INPUT_FILE"
     fname=${location}-$(basename $INPUT_FILE)
-    temp_fname=${location}-temp-$(basename $INPUT_FILE)
     OUTPUT_FILE=$OUTPUT_DIR/$fname
-    TEMP_FILE=$OUTPUT_DIR/$temp_fname
     # perform the remapping to a 2.5x2.5 grid
-    cdo remapbil,$grid $INPUT_FILE $TEMP_FILE
-    # select the gridbox
-    cdo sellonlatbox,$lon1,$lon2,$lat1,$lat2 $TEMP_FILE $OUTPUT_FILE
+    # select the gridbox and remap
+    cdo sellonlatbox,$lon1,$lon2,$lat1,$lat2 -remapbil,$grid $INPUT_FILE $OUTPUT_FILE
 
     # remove the temporary file
     rm $TEMP_FILE
