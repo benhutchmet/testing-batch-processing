@@ -22,19 +22,17 @@ OUTPUT_DIR=/home/users/benhutch/ERA5_psl
 # set the file to be processed 
 file=/home/users/benhutch/ERA5_psl/adaptor.mars.internal-1669912474.882154-28712-3-70ecc8cf-50c6-4c45-967a-01d26ddaae07.grib
 
-# set up an if loop for the location gridbox selection
+# set up the gridspec files
+azores_grid="/home/users/benhutch/ERA5_psl/gridspec-azores.txt"
+iceland_grid="/home/users/benhutch/ERA5_psl/gridspec-iceland.txt"
+
+# if the location is azores
 if [ $location == "azores" ]; then
-    lon1=-28
-    lon2=-20
-    lat1=36
-    lat2=40
+    grid=$azores_grid
 elif [ $location == "iceland" ]; then
-    lon1=-25
-    lon2=-16
-    lat1=63
-    lat2=70
+    grid=$iceland_grid
 else
-    echo "[ERROR] Location not recognised"
+    echo "Location must be azores or iceland"
     exit 1
 fi
 
@@ -49,10 +47,19 @@ module load jaspy
 # first convert the grib file to netcdf
 cdo -f nc copy $file $output_file
 
-# select the gridbox and months DJFM
+
+# set up the output file name
+output_fname_remap="ERA5.${location}-gridbox.psl.DJFM.nc"
+# remap the grid to the location specified
+# using first order conservative remapping
+# or would bilinear be better?
+cdo remapcon,$grid $output_file $OUTPUT_DIR/$output_fname_remap
+
+
+# select the months DJFM
 # set up the output file name
 ERA5-DJFM-LOCATION-NC-FILE="ERA5.${location}-gridbox.psl.DJFM.nc"
-cdo select,season=DJFM -sellonlatbox,$lon1,$lon2,$lat1,$lat2 $output_file $OUTPUT_DIR/$ERA5-DJFM-LOCATION-NC-FILE
+cdo select,season=DJFM $OUTPUT_DIR/$output_fname_remap $OUTPUT_DIR/$ERA5-DJFM-LOCATION-NC-FILE
 
 # calculate the model mean state for all DJFM
 # set up the output file name
