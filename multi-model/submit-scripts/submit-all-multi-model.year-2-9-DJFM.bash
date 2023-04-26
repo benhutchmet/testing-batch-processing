@@ -1,4 +1,3 @@
-
 #!/bin/bash
 
 # submit-all-multi-model.year-2-9-DJFM.bash
