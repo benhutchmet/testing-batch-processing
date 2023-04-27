@@ -68,7 +68,8 @@ else
        echo "[INFO] Submitting job to LOTUS to constrain the data to years 2-9 DJFM for $model"
        
        # Submit the job to LOTUS
-       sbatch --partition=short-serial -t 5 -o $OUTPUTS_DIR/year-2-9.%j.out \
+       # limit modified to 60 mins specifically for CESM
+       sbatch --partition=short-serial -t 60 -o $OUTPUTS_DIR/year-2-9.%j.out \
        -e $OUTPUTS_DIR/year-2-9.%j.err $EXTRACTOR $location $model
 
 fi
