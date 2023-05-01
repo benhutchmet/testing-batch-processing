@@ -28,7 +28,7 @@ OUTPUT_DIR=/work/scratch-nopw/benhutch/$model/$location/outputs/ind-members/ense
 mkdir -p $OUTPUT_DIR
 
 # set the files to be processed
-files=/work/scratch-nopw/benhutch/$model/$location/outputs/years-2-9-DJFM-${location}-psl_Amon_${model}_dcppA-hindcast_s${year}-r${run}i${init}*.nc
+files=/work/scratch-nopw/benhutch/$model/$location/outputs/subtracted-MM-state-years-2-9-DJFM-${location}-psl_Amon_${model}_dcppA-hindcast_s${year}-r${run}i${init}*.nc
 
 # echo the files being processed
 echo $files
