@@ -85,9 +85,9 @@ if [ $model == "all" ]; then
                 # if model is HadGEM3 or EC-Earth3, then we need to add the run number to the end of the model name
                 if [ "$model" == "HadGEM3-GC31-MM" ] || [ "$model" == "EC-Earth3" ]; then
 
-                    init=[1-2]
+                    init=2
 
-                    for init in $init; do
+                    for init in $(seq 1 $init); do
 
                         # echo the init
                         echo "[INFO] Calculating time means for init: $init"
@@ -132,44 +132,71 @@ else
     # make the output directory if it doesn't exist
     mkdir -p $OUTPUTS_DIR
 
+    # set up the number of ensemble members to extract
+    if [ "$model" == "BCC-CSM2-MR" ]; then
+        run=8
+    elif [ "$model" == "MPI-ESM1-2-HR" ]; then
+        run=10
+    elif [ "$model" == "CanESM5" ]; then
+        run=20
+    elif [ "$model" == "CMCC-CM2-SR5" ]; then
+        run=10
+    elif [ "$model" == "HadGEM3-GC31-MM" ]; then
+        run=10
+    elif [ "$model" == "EC-Earth3" ]; then
+        run=10
+    elif [ "$model" == "MPI-ESM1-2-LR" ]; then
+        run=16
+    elif [ "$model" == "FGOALS-f3-L" ]; then
+        run=9
+    elif [ "$model" == "MIROC6" ]; then
+        run=10
+    elif [ "$model" == "IPSL-CM6A-LR" ]; then
+        run=10
+    elif [ "$model" == "CESM1-1-CAM5-CMIP5" ]; then
+        run=40
+    elif [ "$model" == "NorCPM1" ]; then
+        run=10
+    else
+        echo "[ERROR] Model not recognised"
+        exit 1
+    fi
+
     # create an outer loop to loop through the years
     for year in $(seq $start_year $end_year); do
 
-            for run in $(seq 1 $run); do
+        for run in $(seq 1 $run); do
 
+            # if model is HadGEM3 or EC-Earth3, then we need to add the run number to the end of the model name
+            if [ "$model" == "HadGEM3-GC31-MM" ] || [ "$model" == "EC-Earth3" ]; then
 
-                # if model is HadGEM3 or EC-Earth3, then we need to add the run number to the end of the model name
-                if [ "$model" == "HadGEM3-GC31-MM" ] || [ "$model" == "EC-Earth3" ]; then
+                init=[1-2]
 
-                    init=[1-2]
+                for init in $init; do
 
-                    for init in $init; do
+                    # echo the init
+                    echo "[INFO] Calculating time means for init: $init"
 
-                        # echo the init
-                        echo "[INFO] Calculating time means for init: $init"
+                    # set the date
+                    year=$(printf "%d" $year)
+                    echo "[INFO] Submitting job to LOTUS for year: $year"
+                    # Submit the job to LOTUS
+                    sbatch --partition=short-serial -t 5 -o $OUTPUTS_DIR/${year}.%j.out \
+                        -e $OUTPUTS_DIR/${year}.%j.err $EXTRACTOR $location $model $year $run $init
 
-                        # set the date
-                        year=$(printf "%d" $year)
-                        echo "[INFO] Submitting job to LOTUS for year: $year"
-                        # Submit the job to LOTUS
-                        sbatch --partition=short-serial -t 5 -o $OUTPUTS_DIR/${year}.%j.out \
-                            -e $OUTPUTS_DIR/${year}.%j.err $EXTRACTOR $location $model $year $run $init
+                done
 
-                    done
+            else
 
-                else
+            init=1
 
-                init=1
+            year=$(printf "%d" $year)
+            echo "[INFO] Submitting job to LOTUS for year: $year"
+            # Submit the job to LOTUS
+            sbatch --partition=short-serial -t 5 -o $OUTPUTS_DIR/${year}.%j.out \
+                    -e $OUTPUTS_DIR/${year}.%j.err $EXTRACTOR $location $model $year $run $init
 
-                year=$(printf "%d" $year)
-                echo "[INFO] Submitting job to LOTUS for year: $year"
-                # Submit the job to LOTUS
-                sbatch --partition=short-serial -t 5 -o $OUTPUTS_DIR/${year}.%j.out \
-                       -e $OUTPUTS_DIR/${year}.%j.err $EXTRACTOR $location $model $year $run $init
-
-                fi
-
-            done
+            fi
+        done
     done
-
 fi
