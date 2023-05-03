@@ -2,7 +2,7 @@
 
 # submit-all-multi-model.time-mean.ind-ens-members.bash
 #
-# For example: submit-all-multi-model.time-mean.ind-ens-members.bash azores 1960 1969
+# For example: submit-all-multi-model.time-mean.ind-ens-members.bash azores BCC-CSM2-MR 1960 1969
 #
 
 # import the updated models list
@@ -83,7 +83,7 @@ if [ $model == "all" ]; then
 
 
                 # if model is HadGEM3 or EC-Earth3, then we need to add the run number to the end of the model name
-                if [ "$model" == "HadGEM3-GC31-MM" ] || [ "$model" == "EC-Earth3" ]; then
+                if [ "$model" == "NorCPM1" ] || [ "$model" == "EC-Earth3" ]; then
 
                     init=2
 
@@ -168,11 +168,11 @@ else
         for run in $(seq 1 $run); do
 
             # if model is HadGEM3 or EC-Earth3, then we need to add the run number to the end of the model name
-            if [ "$model" == "HadGEM3-GC31-MM" ] || [ "$model" == "EC-Earth3" ]; then
+            if [ "$model" == "NorCPM1" ] || [ "$model" == "EC-Earth3" ]; then
 
-                init=[1-2]
+            init=2
 
-                for init in $init; do
+                for init in $(seq 1 $init); do
 
                     # echo the init
                     echo "[INFO] Calculating time means for init: $init"

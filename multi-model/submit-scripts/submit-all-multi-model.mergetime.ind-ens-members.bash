@@ -2,7 +2,7 @@
 
 # submit-all-multi-model.mergetime.ind-ens-members.bash
 #
-# Usage: submit-all-multi-model.mergetime.ind-ens-members.bash <location> <model> <run> <init>
+# Usage: submit-all-multi-model.mergetime.ind-ens-members.bash <location> <model> <lag>
 #
 
 # import the models list
@@ -10,10 +10,10 @@ source $PWD/models.bash
 # echo the models list
 echo "[INFO] Models list: $models"
 
-USAGE_MESSAGE="Usage: submit-all-multi-model.mergetime.bash <location> <model> <run> <init>"
+USAGE_MESSAGE="Usage: submit-all-multi-model.mergetime.ind-ens-members.bash <location> <model>"
 
 # check that the correct number of arguments have been passed
-if [ $# -ne 4 ]; then
+if [ $# -ne 3 ]; then
     echo "$USAGE_MESSAGE"
     exit 1
 fi
@@ -21,6 +21,19 @@ fi
 # extract the location and model from the command line arguments
 location=$1
 model=$2
+lag=$3
+
+# if else statement for using lag or not
+if [ $lag == "lag" ]; then
+    echo "[INFO] Using lag"
+    lag=lag
+elif [ $lag == "nolag" ]; then
+    echo "[INFO] Not using lag"
+    lag=nolag
+else
+    echo "[ERROR] Lag must be either lag or nolag"
+    exit 1
+fi
 
 # set the extractor script and the output directory
 EXTRACTOR=$PWD/multi-model.mergetime.ind-ens-members.bash
@@ -67,7 +80,7 @@ if [ $model == "all" ]; then
 
             # if model is HadGEM3 or EC-Earth3
             # need to submit 2 jobs for each run
-            if [ "$model" == "HadGEM3-GC31-MM" ] || [ "$model" == "EC-Earth3" ]; then
+            if [ "$model" == "NorCPM1" ] || [ "$model" == "EC-Earth3" ]; then
 
                 # init has values 1 and 2
                 init=2
@@ -79,7 +92,7 @@ if [ $model == "all" ]; then
 
                     # Submit the job to LOTUS
                     sbatch --partition=short-serial -t 5 -o $OUTPUTS_DIR/merge-time-dimension.%j.out \
-                           -e $OUTPUTS_DIR/merge-time-dimension.%j.err $EXTRACTOR $location $model $run $init
+                           -e $OUTPUTS_DIR/merge-time-dimension.%j.err $EXTRACTOR $location $model $run $init $lag
 
                 done
 
@@ -89,7 +102,7 @@ if [ $model == "all" ]; then
 
                 # Submit the job to LOTUS
                 sbatch --partition=short-serial -t 5 -o $OUTPUTS_DIR/merge-time-dimension.%j.out \
-                       -e $OUTPUTS_DIR/merge-time-dimension.%j.err $EXTRACTOR $location $model $run $init
+                       -e $OUTPUTS_DIR/merge-time-dimension.%j.err $EXTRACTOR $location $model $run $init $lag
             fi
         done
     done
@@ -126,7 +139,7 @@ else
 
         # if model is HadGEM3 or EC-Earth3
         # need to submit 2 jobs for each run
-        if [ "$model" == "HadGEM3-GC31-MM" ] || [ "$model" == "EC-Earth3" ]; then
+        if [ "$model" == "NorCPM1" ] || [ "$model" == "EC-Earth3" ]; then
 
             # init has values 1 and 2
             init=2
@@ -138,7 +151,7 @@ else
 
             # Submit the job to LOTUS
             sbatch --partition=short-serial -t 5 -o $OUTPUTS_DIR/merge-time-dimension.%j.out \
-                    -e $OUTPUTS_DIR/merge-time-dimension.%j.err $EXTRACTOR $location $model $run $init
+                    -e $OUTPUTS_DIR/merge-time-dimension.%j.err $EXTRACTOR $location $model $run $init $lag
 
             done
         else
@@ -150,7 +163,7 @@ else
 
             # Submit the job to LOTUS
             sbatch --partition=short-serial -t 5 -o $OUTPUTS_DIR/merge-time-dimension.%j.out \
-                    -e $OUTPUTS_DIR/merge-time-dimension.%j.err $EXTRACTOR $location $model $run $init
+                    -e $OUTPUTS_DIR/merge-time-dimension.%j.err $EXTRACTOR $location $model $run $init $lag
 
         fi
     done

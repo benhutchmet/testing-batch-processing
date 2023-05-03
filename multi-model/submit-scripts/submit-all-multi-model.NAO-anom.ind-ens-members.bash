@@ -2,25 +2,37 @@
 
 # submit-all-multi-model.NAO-anom.ind-ens-members.bash
 #
-# Usage: submit-all-multi-model.NAO-anom.bash <model>
+# Usage: submit-all-multi-model.NAO-anom.bash <model> <lag>
 #
-# For example: submit-all-multi-model.NAO-anom.bash BCC-CSM2-MR
+# For example: submit-all-multi-model.NAO-anom.bash BCC-CSM2-MR lag
 
 # import the models list
 source $PWD/models.bash
 # echo the models list
 echo "[INFO] Models list: $models"
 
-USAGE_MESSAGE="Usage: submit-all-multi-model.NAO-anom.bash <model>"
+USAGE_MESSAGE="Usage: submit-all-multi-model.NAO-anom.bash <model> <lag>"
 
 # check that the correct number of arguments have been passed
-if [ $# -ne 1 ]; then
+if [ $# -ne 2 ]; then
     echo "$USAGE_MESSAGE"
     exit 1
 fi
 
 # set the model
 model=$1
+# set the lag
+lag=$2
+
+# set the lag string
+if [ $lag == "lag" ]; then
+    lag="lag"
+elif [ $lag == "nolag" ]; then
+    lag="nolag"
+else
+    echo "[ERROR] Lag must be either 'lag' or 'nolag'"
+    exit 1
+fi
 
 # set the extractor
 EXTRACTOR=$PWD/multi-model.NAO-anom.ind-ens-members.bash
@@ -64,7 +76,7 @@ if [ $model == "all" ]; then
 
             # if model is HadGEM3 or EC-Earth3
             # need to submit 2 jobs for each run
-            if [ "$model" == "HadGEM3-GC31-MM" ] || [ "$model" == "EC-Earth3" ]; then
+            if [ "$model" == "NorCPM1" ] || [ "$model" == "EC-Earth3" ]; then
 
             # init has values 1 and 2
             init=2
@@ -76,7 +88,7 @@ if [ $model == "all" ]; then
 
                     # Submit the job to LOTUS
                     sbatch --partition=short-serial -t 5 -o $OUTPUTS_DIR/NAO-anomaly.$model.$run.$init.%j.out \
-                        -e $OUTPUTS_DIR/NAO-anomaly.$model.$run.$init.%j.err $EXTRACTOR $model $run $init
+                        -e $OUTPUTS_DIR/NAO-anomaly.$model.$run.$init.%j.err $EXTRACTOR $model $run $init $lag
 
                 done
 
@@ -90,7 +102,7 @@ if [ $model == "all" ]; then
 
             # Submit the job to LOTUS
             sbatch --partition=short-serial -t 5 -o $OUTPUTS_DIR/NAO-anomaly.$model.$run.$init.%j.out \
-                -e $OUTPUTS_DIR/NAO-anomaly.$model.$run.$init.%j.err $EXTRACTOR $model $run $init
+                -e $OUTPUTS_DIR/NAO-anomaly.$model.$run.$init.%j.err $EXTRACTOR $model $run $init $lag
 
             fi
         done
@@ -128,7 +140,7 @@ else
 
         # if model is HadGEM3 or EC-Earth3
         # need to submit 2 jobs for each run
-        if [ "$model" == "HadGEM3-GC31-MM" ] || [ "$model" == "EC-Earth3" ]; then
+        if [ "$model" == "NorCPM1" ] || [ "$model" == "EC-Earth3" ]; then
 
         # init has values 1 and 2
         init=2
@@ -140,7 +152,7 @@ else
 
                 # Submit the job to LOTUS
                 sbatch --partition=short-serial -t 5 -o $OUTPUTS_DIR/NAO-anomaly.$model.$run.$init.%j.out \
-                    -e $OUTPUTS_DIR/NAO-anomaly.$model.$run.$init.%j.err $EXTRACTOR $model $run $init
+                    -e $OUTPUTS_DIR/NAO-anomaly.$model.$run.$init.%j.err $EXTRACTOR $model $run $init $lag
 
             done
 
@@ -154,7 +166,7 @@ else
 
         # Submit the job to LOTUS
         sbatch --partition=short-serial -t 5 -o $OUTPUTS_DIR/NAO-anomaly.$model.$run.$init.%j.out \
-            -e $OUTPUTS_DIR/NAO-anomaly.$model.$run.$init.%j.err $EXTRACTOR $model $run $init
+            -e $OUTPUTS_DIR/NAO-anomaly.$model.$run.$init.%j.err $EXTRACTOR $model $run $init $lag
 
         fi
     done
