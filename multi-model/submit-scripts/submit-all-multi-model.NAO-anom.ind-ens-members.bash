@@ -84,7 +84,7 @@ if [ $model == "all" ]; then
                 for init in $(seq 1 $init); do
 
                     # we only have to submit one job to lotus
-                    echo "[INFO] Submitting job to LOTUS to calculate the NAO anomalies for $model, run $run, init $init"
+                    echo "[INFO] Submitting job to LOTUS to calculate the NAO anomalies for $model, run $run, init $init and lag: $lag"
 
                     # Submit the job to LOTUS
                     sbatch --partition=short-serial -t 5 -o $OUTPUTS_DIR/NAO-anomaly.$model.$run.$init.%j.out \
@@ -98,7 +98,7 @@ if [ $model == "all" ]; then
             init=1
 
             # we only have to submit one job to lotus
-            echo "[INFO] Submitting job to LOTUS to calculate the NAO anomalies for $model, run $run, init $init"
+            echo "[INFO] Submitting job to LOTUS to calculate the NAO anomalies for $model, run $run, init $init and lag: $lag"
 
             # Submit the job to LOTUS
             sbatch --partition=short-serial -t 5 -o $OUTPUTS_DIR/NAO-anomaly.$model.$run.$init.%j.out \
@@ -148,7 +148,7 @@ else
             for init in $(seq 1 $init); do
 
                 # we only have to submit one job to lotus
-                echo "[INFO] Submitting job to LOTUS to calculate the NAO anomalies for $model, run $run, init $init"
+                echo "[INFO] Submitting job to LOTUS to calculate the NAO anomalies for $model, run $run, init $init and lag: $lag"
 
                 # Submit the job to LOTUS
                 sbatch --partition=short-serial -t 5 -o $OUTPUTS_DIR/NAO-anomaly.$model.$run.$init.%j.out \
@@ -162,7 +162,7 @@ else
         init=1
 
         # we only have to submit one job to lotus
-        echo "[INFO] Submitting job to LOTUS to calculate the NAO anomalies for $model, run $run, init $init"
+        echo "[INFO] Submitting job to LOTUS to calculate the NAO anomalies for $model, run $run, init $init and lag: $lag"
 
         # Submit the job to LOTUS
         sbatch --partition=short-serial -t 5 -o $OUTPUTS_DIR/NAO-anomaly.$model.$run.$init.%j.out \

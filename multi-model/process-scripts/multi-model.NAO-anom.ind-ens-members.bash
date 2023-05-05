@@ -5,7 +5,6 @@
 # Usage: multi-model.NAO-anom.ind-ens-members.bash <model> <run> <init> <lag>
 #
 # For example: multi-model.NAO-anom.bash BCC-CSM2-MR 1 1 lag
-
 USAGE_MESSAGE="Usage: multi-model.NAO-anom.bash <model> <run> <init> <lag>"
 
 # check that the correct number of arguments have been passed
@@ -28,13 +27,16 @@ mkdir -p $OUTPUT_DIR
 # set the files to be processed
 # in the nolag case
 if [ $lag == "nolag" ]; then
-    azores=/work/scratch-nopw/benhutch/$model/azores/outputs/ind-members/mergetime/merged-time-mean-years-2-9-DJFM-anomalies-azores-psl_Amon_${model}_dcppA-hindcast_s*-r${run}i${init}.nc
-    iceland=/work/scratch-nopw/benhutch/$model/iceland/outputs/ind-members/mergetime/merged-time-mean-years-2-9-DJFM-anomalies-iceland-psl_Amon_${model}_dcppA-hindcast_s*-r${run}i${init}.nc
+    azores=/work/scratch-nopw/benhutch/$model/azores/outputs/ind-members/mergetime/merged-time-mean-years-2-9-DJFM-anomalies-azores-psl_Amon_dcppA-hindcast-${model}_r${run}i${init}-${lag}.nc
+    iceland=/work/scratch-nopw/benhutch/$model/iceland/outputs/ind-members/mergetime/merged-time-mean-years-2-9-DJFM-anomalies-iceland-psl_Amon_dcppA-hindcast-${model}_r${run}i${init}-${lag}.nc
 # in the lag case
 elif [ $lag == "lag" ]; then
-    azores=/work/scratch-nopw/benhutch/$model/azores/outputs/ind-members/mergetime/merged-time-mean-years-2-9-DJFM-anomalies-azores-psl_Amon_dcppA-hindcast-${model}_r${run}i${init}-lag.nc
-    iceland=/work/scratch-nopw/benhutch/$model/iceland/outputs/ind-members/mergetime/merged-time-mean-years-2-9-DJFM-anomalies-iceland-psl_Amon_dcppA-hindcast-${model}_r${run}i${init}-lag.nc
+    azores=/work/scratch-nopw/benhutch/$model/azores/outputs/ind-members/mergetime/merged-time-mean-years-2-9-DJFM-anomalies-azores-psl_Amon_dcppA-hindcast-${model}_r${run}i${init}-${lag}.nc
+    iceland=/work/scratch-nopw/benhutch/$model/iceland/outputs/ind-members/mergetime/merged-time-mean-years-2-9-DJFM-anomalies-iceland-psl_Amon_dcppA-hindcast-${model}_r${run}i${init}-${lag}.nc
 fi                    
+
+
+
 
 
 # echo the files being processed
@@ -45,4 +47,4 @@ echo "iceland file: $iceland"
 module load jaspy
 
 # calculate the NAO anomaly
-cdo sub -fldmean $azores -fldmean $iceland $OUTPUT_DIR/nao-anomaly-${model}_r${run}i${init}.nc
+cdo sub -fldmean $azores -fldmean $iceland $OUTPUT_DIR/nao-anomaly-${model}_r${run}i${init}-${lag}.nc
