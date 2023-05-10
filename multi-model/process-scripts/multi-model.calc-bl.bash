@@ -24,27 +24,83 @@ mkdir -p $OUTPUT_DIR
 
 # set the files to be processed
 # we only want to extract the files constrained to years 2-9 DJFM
-files="/work/scratch-nopw/benhutch/$model/$location/outputs/years-2-9-DJFM-*.nc"
+# if the model is EC-Earth3 or NorCPM1
+# then we need to calculate the means for each of the init schemes
+# otherwise the files are just the ensemble members
+if [ $model == "EC-Earth3" ] || [ $model == "NorCPM1" ]; then
+    # set the files to be processed
+    i1_files="/work/scratch-nopw/benhutch/$model/$location/outputs/years-2-9-DJFM-*i1*.nc"
+    i2_files="/work/scratch-nopw/benhutch/$model/$location/outputs/years-2-9-DJFM-*i2*.nc"
+else
+    files="/work/scratch-nopw/benhutch/$model/$location/outputs/years-2-9-DJFM-*.nc"
+fi
 
 # activate the environment containing CDO
 module load jaspy
 
 # loop through the files and process them
-for file in $files; do
+# if the model is EC-Earth3 or NorCPM1
+# calculate the means for each of the init schemes separately
+# otherwise just calculate the ensemble mean
+if [ $model == "EC-Earth3" ] || [ $model == "NorCPM1" ]; then
 
-    # echo the file name
-    echo "[INFO] Calculating the model mean state for file: $file"
-    temp_fname="temp-$(basename "$file")"
-    TEMP_FILE="$OUTPUT_DIR/$temp_fname"
+# echo the model name
+echo "[INFO] Calculating the model mean state for model: $model"
 
-    # calculate the time mean for each file
-    cdo timmean "$file" "$TEMP_FILE"
+    # first loop over the i1 files
+    for file in $i1_files; do
 
-done
+        echo "[INFO] Calculating the model mean state for init scheme: i1"
 
-# now take the ensemble mean to calculate the nmodel mean state
-cdo ensmean $OUTPUT_DIR/temp-*.nc $OUTPUT_DIR/model-mean-state.nc
+        # echo the file name
+        echo "[INFO] Calculating the model mean state for file: $file"
+        temp_fname="temp-$(basename "$file")"
+        TEMP_FILE="$OUTPUT_DIR/$temp_fname"
 
-# remove all of the intermediate files
-# in next step
-# rm $OUTPUT_DIR/temp*.nc
+        # calculate the time mean for each file
+        cdo timmean "$file" "$TEMP_FILE"
+
+    done
+
+    # now take the ensemble mean to calculate the nmodel mean state
+    # for the i1 files
+    cdo ensmean $OUTPUT_DIR/temp-*i1*.nc $OUTPUT_DIR/model-mean-state-i1.nc
+
+    # now loop over the i2 files
+    for file in $i2_files; do
+
+        echo "[INFO] Calculating the model mean state for init scheme: i2"
+
+        # echo the file name
+        echo "[INFO] Calculating the model mean state for file: $file"
+        temp_fname="temp-$(basename "$file")"
+        TEMP_FILE="$OUTPUT_DIR/$temp_fname"
+
+        # calculate the time mean for each file
+        cdo timmean "$file" "$TEMP_FILE"
+
+    done
+
+    # now take the ensemble mean to calculate the nmodel mean state
+    # for the i2 files
+    cdo ensmean $OUTPUT_DIR/temp-*i2*.nc $OUTPUT_DIR/model-mean-state-i2.nc
+
+else
+
+
+    for file in $files; do
+
+        # echo the file name
+        echo "[INFO] Calculating the model mean state for file: $file"
+        temp_fname="temp-$(basename "$file")"
+        TEMP_FILE="$OUTPUT_DIR/$temp_fname"
+
+        # calculate the time mean for each file
+        cdo timmean "$file" "$TEMP_FILE"
+
+    done
+
+    # now take the ensemble mean to calculate the nmodel mean state
+    cdo ensmean $OUTPUT_DIR/temp-*.nc $OUTPUT_DIR/model-mean-state.nc
+
+fi
