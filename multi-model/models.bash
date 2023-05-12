@@ -26,7 +26,7 @@ wind_speed_ESGF_models=("CESM1-1-CAM5-CMIP5" "IPSL-CM6A-LR" "MIROC6" "FGOALS-f3-
 # nodes for downloading wind speed data from ESGF
 # corresponding to the models above
 # will need to make sure that these are the correct nodes
-wind_speed_ESGF_nodes=("esgf-data.ucar.edu" "vesg.ipsl.upmc.fr" "esgf-data02.diasjp.net" "esg.lasg.ac.cn" "esgf-data1.llnl.gov" "esgf.ceda.ac.uk" "crd-esgf-drc.ec.gc.ca" "esgf-node2.cmcc.it" "esgf-data1.llnl.gov")
+wind_speed_ESGF_nodes=("esgf-data.ucar.edu" "vesg.ipsl.upmc.fr" "esgf-data02.diasjp.net" "esg.lasg.ac.cn" "esgf-data1.llnl.gov" "esgf3.dkrz.de" "crd-esgf-drc.ec.gc.ca" "esgf-node2.cmcc.it" "esgf-data1.llnl.gov")
 
 # models for downloading TAS data from ESGF
 tas_ESGF_models=("CESM1-1-CAM5-CMIP5" "FGOALS-f3-L" "MPI-ESM1-2-LR")
