@@ -19,41 +19,65 @@ echo  "[INFO] Nodes to be downloaded from: $ESGF_nodes"
 project="CMIP6"
 experiment_id="dcppA-hindcast"
 table_id="Amon"
-variable_id="psl"
+# variable_id="psl"
+variables_id=("sfcWind" "tas" "rsds")
 limit=10000
 
 # echo the characteristics of the data to be downloaded
 echo "[INFO] Project: $project"
 echo "[INFO] Experiment: $experiment_id"
 echo "[INFO] Table: $table_id"
-echo "[INFO] Variable: $variable_id"
+echo "[INFO] Variable: $variables_id"
 echo "[INFO] Limit: $limit"
 
 # set the directory to download wget scripts to
 wget_scripts_dir="/home/users/benhutch/multi-model/download_scripts/wget_scripts/"
 
-# loop over the models and nodes
-# and download the wget scripts
-for ((i=0; i<${#ESGF_models[@]}; i++)); do
+# loop over the variables
+for variable_id in "${variables_id[@]}"; do
 
-    # set the model and node
-    model=${ESGF_models[i]}
-    node=${ESGF_nodes[i]}
+    # echo the variable
+    echo "[INFO] Variable: $variable_id"
 
-    # echo the model and node
-    echo "[INFO] Downloading wget script for $model from $node"
+    # set up the ESGF model and node to be used depending on the variable
+    if [ "$variable_id" == "sfcWind" ]; then
+        ESGF_models=$wind_speed_ESGF_models
+        ESGF_nodes=$wind_speed_ESGF_nodes
+    elif [ "$variable_id" == "tas" ]; then
+        ESGF_models=$tas_ESGF_models
+        ESGF_nodes=$tas_ESGF_nodes
+    elif [ "$variable_id" == "rsds" ]; then
+        ESGF_models=$rsds_ESGF_models
+        ESGF_nodes=$rsds_ESGF_nodes
+    else
+        echo "[ERROR] Variable not recognised"
+        exit 1
+    fi  
 
-    # set the url
-    url="https://esgf-data.dkrz.de/esg-search/wget?project=$project&experiment_id=$experiment_id&source_id=$model&table_id=$table_id&variable_id=$variable_id&limit=$limit&data_node=$node"
-    
-    # set the wget script name
-    wget_script_name="wget_script_$model.bash"
-    # set the wget script path
-    wget_script_path="$wget_scripts_dir$wget_script_name"
-    
-    # download the wget script
-    wget -O $wget_script_path $url
-    # make the wget script executable
-    chmod +x $wget_script_path
+    # loop over the models and nodes
+    # and download the wget scripts
+    for ((i=0; i<${#ESGF_models[@]}; i++)); do
+
+        # set the model and node
+        model=${ESGF_models[i]}
+        node=${ESGF_nodes[i]}
+
+        # echo the model and node
+        echo "[INFO] Downloading wget script for $model from $node"
+
+        # set the url
+        url="https://esgf-data.dkrz.de/esg-search/wget?project=$project&experiment_id=$experiment_id&source_id=$model&table_id=$table_id&variable_id=$variable_id&limit=$limit&data_node=$node"
+        
+        # set the wget script name
+        wget_script_name="wget_script_${model}_${variable_id}.bash"
+        # set the wget script path
+        wget_script_path="$wget_scripts_dir$wget_script_name"
+        
+        # download the wget script
+        wget -O $wget_script_path $url
+        # make the wget script executable
+        chmod +x $wget_script_path
+
+    done
 
 done
