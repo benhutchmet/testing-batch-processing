@@ -17,6 +17,7 @@ location=$3
 # set up the gridspec files
 azores_grid="/home/users/benhutch/ERA5_psl/gridspec-azores.txt"
 iceland_grid="/home/users/benhutch/ERA5_psl/gridspec-iceland.txt"
+north_atlantic_grid="/home/users/benhutch/ERA5_psl/gridspec-north-atlantic.txt"
 
 # set up an if loop for the location gridbox selection
 if [ "$location" == "azores" ]; then
@@ -35,6 +36,15 @@ elif [ "$location" == "iceland" ]; then
     lat2=70
     # set the grid file
     grid=$iceland_grid
+# for the North Atlantic region
+elif [ "$location" == "NA" ]; then
+    # set the dimensions of the gridbox
+    lon1=-80
+    lon2=40
+    lat1=20
+    lat2=80
+    # set the grid file for the North Atlantic region
+    grid=$north_atlantic_grid
 else
     echo "[ERROR] Location not recognised"
     exit 1
@@ -118,7 +128,7 @@ for INPUT_FILE in $files; do
     cdo sellonlatbox,$lon1,$lon2,$lat1,$lat2 -remapbil,$grid $INPUT_FILE $OUTPUT_FILE
 
     # remove the temporary file
-    rm $TEMP_FILE
+    #rm $TEMP_FILE
 
 done
 

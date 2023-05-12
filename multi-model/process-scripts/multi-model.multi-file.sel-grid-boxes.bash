@@ -33,6 +33,7 @@ model=$4
 # set up the gridspec files
 azores_grid="/home/users/benhutch/ERA5_psl/gridspec-azores.txt"
 iceland_grid="/home/users/benhutch/ERA5_psl/gridspec-iceland.txt"
+north_atlantic_grid="/home/users/benhutch/ERA5_psl/gridspec-north-atlantic.txt"
 
 # set up an if loop for the location gridbox selection
 if [ "$location" == "azores" ]; then
@@ -51,6 +52,15 @@ elif [ "$location" == "iceland" ]; then
     lat2=70
     # set the grid
     grid=$iceland_grid
+# for the North Atlantic region
+elif [ "$location" == "NA" ]; then
+    # set the lat lon box
+    lon1=-80
+    lon2=40
+    lat1=20
+    lat2=80
+    # set the grid for the North Atlantic region
+    grid=$north_atlantic_grid
 else
     echo "[ERROR] Location not recognised"
     exit 1
