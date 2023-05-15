@@ -10,18 +10,18 @@ arg=$1
 
 # Based on the argument, assign the appropriate variable
 if [ "$arg" = "sfcWind" ]; then
-    models=${wind_speed_esgf_models[@]}
+    models=${wind_speed_esgf_models}
 elif [ "$arg" = "tas" ]; then
-    models=${tas_esgf_models[@]}
+    models=${tas_esgf_models}
 elif [ "$arg" = "rsds" ]; then
-    models=${rsds_esgf_models[@]}
+    models=${rsds_esgf_models}
 else
     echo "Unsupported argument"
     exit 1
 fi
 
 # Iterate over the models
-for model in ${models[@]}; do
+for model in ${models}; do
     # Create a directory for each model if it doesn't exist
     if [ ! -d "$model" ]; then
         mkdir "$model"
